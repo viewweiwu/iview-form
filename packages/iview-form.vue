@@ -4,6 +4,7 @@ const formatDate = (date, formatValue) => {
   if (typeof date === 'string') {
     date = date.replace(/-/g, '/')
   }
+  date = new Date(date)
   let o = {
     'M+': date.getMonth() + 1, // 月份
     'd+': date.getDate(), // 日
@@ -24,6 +25,39 @@ const formatDate = (date, formatValue) => {
   return formatValue
 }
 
+const getPrefix = (tag, lib) => {
+  let iviewMap = {
+    'form': 'i-form',
+    'form-item': 'form-item',
+    'input': 'i-input',
+    'select': 'i-select',
+    'option': 'i-option',
+    'checkbox': 'checkbox',
+    'checkbox-group': 'checkbox-group',
+    'date-picker': 'date-picker',
+    'radio': 'radio',
+    'radio-group': 'radio-group',
+    'switch': 'i-switch',
+    'slider': 'slider'
+  }
+  let elementMap = {
+    'form': 'el-form',
+    'form-item': 'el-form-item',
+    'input': 'el-input',
+    'select': 'el-select',
+    'option': 'el-option',
+    'checkbox': 'el-checkbox',
+    'checkbox-group': 'el-checkbox-group',
+    'date-picker': 'el-date-picker',
+    'radio': 'el-radio',
+    'radio-group': 'el-radio-group',
+    'switch': 'el-switch',
+    'slider': 'el-slider'
+  }
+
+  return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
+}
+
 export default {
   name: 'iview-form',
   props: {
@@ -38,6 +72,22 @@ export default {
     inline: {
       type: Boolean,
       default: false
+    },
+    autocomplete: {
+      type: String,
+      default: 'off'
+    },
+    enterSubmit: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    lib: {
+      type: String,
+      default: 'iview'
     },
     'label-width': {
       type: Number,
@@ -58,12 +108,38 @@ export default {
     }
   },
   render(h) {
-    return <i-form inline={this.inline} label-width={this['labelWidth']}>
-      {this.renderFormList(h)}
-      {
-        !this.notCtrl && this.renderSubmit(h)
+    return h(getPrefix('form', this.lib), {
+      props: {
+        model: this.form,
+        rules: this.rules,
+        inline: this.inline,
+        autocomplete: this.autocomplete,
+        'label-width': this.lib === 'iview' ? this['labelWidth'] : this['labelWidth'] + 'px'
+      },
+      ref: 'form',
+      nativeOn: {
+        submit(e) {
+          e.preventDefault()
+          e.stopPropagation()
+        }
       }
-    </i-form>
+    }, [
+      this.$slots.prepend,
+      this.renderFormList(h),
+      !this.notCtrl && this.renderSubmit(h),
+      this.$slots.default
+    ])
+  },
+  computed: {
+    rules() {
+      let rules = {}
+      this.formList.forEach(item => {
+        if (item.rule !== undefined) {
+          rules[item.key] = item.rule
+        }
+      })
+      return rules
+    }
   },
   methods: {
     initForm() {
@@ -127,16 +203,23 @@ export default {
           case 'switch':
             content = this.renderSwitch(h, item)
             break
+          case 'slider':
+            content = this.renderSlider(h, item)
+            break
           default:
             if (typeof item.renderContent === 'function') {
               content = item.renderContent(h, item, this.form)
             }
             break
         }
-        return <form-item>
-          {this.renderTitle(h, item)}
-          {content}
-        </form-item>
+        return h(getPrefix('form-item', this.lib), {
+          props: {
+            prop: item.key
+          }
+        }, [
+          this.renderTitle(h, item),
+          content
+        ])
       })
     },
     // 渲染 title
@@ -156,20 +239,34 @@ export default {
     },
     // 渲染提交 按钮
     renderSubmit(h) {
-      return <form-item>
-        <i-button onClick={this.submit} type="primary">提交</i-button>
-        <i-button onClick={this.reset} style="margin-left: 10px">重置</i-button>
-      </form-item>
+      if (this.lib === 'iview') {
+        return <form-item>
+          <i-button onClick={this.submit} type="primary">提交</i-button>
+          <i-button onClick={this.reset} style="margin-left: 10px">重置</i-button>
+        </form-item>
+      } else {
+        return <el-form-item>
+          <el-button onClick={this.submit} type="primary">提交</el-button>
+          <el-button onClick={this.reset} style="margin-left: 10px">重置</el-button>
+        </el-form-item>
+      }
     },
     // 渲染 input
     renderInput(h, item) {
       let tag = {
         h,
         item,
-        tagName: 'i-input',
+        tagName: getPrefix('input', this.lib),
         props: {
           clearable: true,
           ...(item.props || {})
+        },
+        nativeOn: {
+          keydown: (e) => {
+            if (e.keyCode === 13 && this.enterSubmit) {
+              this.submit()
+            }
+          }
         }
       }
       return this.generateTag(tag)
@@ -179,19 +276,22 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'i-select',
+        tagName: getPrefix('select', this.lib),
         props: {
           clearable: true,
           ...(item.props || {})
         },
         children: item.options.map(option => {
-          return <i-option key={option.value} label={option.text} value={option.value}>
-            {
-              typeof item.renderOption === 'function'
-                ? item.renderOption(h, option, item)
-                : item.text
+          return h(getPrefix('option', this.lib),{
+            props: {
+              label: option.text,
+              value: option.value
             }
-          </i-option>
+          }, [
+            typeof item.renderOption === 'function'
+              ? item.renderOption(h, option, item)
+              : item.text
+          ])
         })
       }
       return this.generateTag(tag)
@@ -201,7 +301,7 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'checkbox',
+        tagName: getPrefix('checkbox', this.lib),
         children: item.text
       }
       return this.generateTag(tag)
@@ -211,9 +311,13 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'checkbox-group',
+        tagName: getPrefix('checkbox-group', this.lib),
         children: item.options.map(option => {
-          return <checkbox label={option.value}>{option.text}</checkbox>
+          return h(getPrefix('checkbox', this.lib), {
+            props: {
+              label: option.value
+            }
+          }, option.text)
         })
       }
       return this.generateTag(tag)
@@ -223,7 +327,7 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'date-picker',
+        tagName: getPrefix('date-picker', this.lib),
         formatValue: formatValue,
         props: {
           clearable: true,
@@ -238,7 +342,7 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'date-picker',
+        tagName: getPrefix('date-picker', this.lib),
         formatValue: formatValue,
         props: {
           clearable: true,
@@ -253,7 +357,7 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'radio',
+        tagName: getPrefix('radio', this.lib),
         children: item.text
       }
       return this.generateTag(tag)
@@ -263,37 +367,59 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'radio-group',
+        tagName: getPrefix('radio-group', this.lib),
         children: item.options.map(option => {
-          return <radio label={option.value}>{option.text}</radio>
+          return h(getPrefix('radio', this.lib), {
+            props: {
+              label: option.value
+            }
+          }, option.text)
         })
       }
       return this.generateTag(tag)
     },
+    // 渲染 switch
     renderSwitch(h, item) {
+      item.width = item.width || 60
       let tag = {
         h,
         item,
-        tagName: 'i-switch'
+        tagName: getPrefix('switch', this.lib)
+      }
+      return this.generateTag(tag)
+    },
+    // 渲染 slider
+    renderSlider(h, item) {
+      let tag = {
+        h,
+        item,
+        tagName: getPrefix('slider', this.lib)
       }
       return this.generateTag(tag)
     },
     // 生产 tag
-    generateTag({h, item, tagName, props, children, formatValue}) {
+    generateTag({h, item, tagName, props, children, formatValue, on = {}, nativeOn = {}}) {
       return h(tagName, {
         props: {
           value: this.form[item.key],
-          ...props
+          ...props,
+          disabled: this.disabled || item.disabled
+        },
+        style: {
+          width: item.width || 240 + 'px'
         },
         on: {
           input: (value) => {
             value = this.formatDateValue(value, item, formatValue)
             this.form[item.key] = value
             this.emitInput(value, item)
-          }
-        }
+          },
+          ...on
+        },
+        nativeOn
       }, children)
     },
+    // 时间 format
     formatDateValue(value, item, formatValue) {
       switch (item.type) {
         case 'date':
@@ -315,7 +441,9 @@ export default {
     },
     // 提交事件
     submit() {
-      this.$emit('submit', this.getForm())
+      this.$refs.form.validate(valid => {
+        this.$emit('submit', this.getForm(), valid)
+      })
     },
     // 清空 form 表单
     reset() {

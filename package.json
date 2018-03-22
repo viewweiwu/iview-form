@@ -14,7 +14,10 @@
     "build:full": "webpack --progress --hide-modules --config build/webpack.build.js && rimraf examples/dist && cross-env NODE_ENV=production webpack --progress --hide-modules --config build/webpack.build.min.js"
   },
   "dependencies": {
-    "vue": "^2.5.2"
+    "highlight.js": "^9.12.0",
+    "iview": "^2.11.0",
+    "vue": "^2.5.2",
+    "vue-highlight.js": "^2.2.0"
   },
   "main": "lib/iview-form.js",
   "files": [
@@ -52,6 +55,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
+    "github-markdown-css": "^2.10.0",
     "html-webpack-plugin": "^2.30.1",
     "inject-loader": "^3.0.0",
     "karma": "^1.4.1",
@@ -65,6 +69,7 @@
     "karma-webpack": "^2.0.2",
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
+    "marked": "^0.3.17",
     "mocha": "^3.2.0",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",

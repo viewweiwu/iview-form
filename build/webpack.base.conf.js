@@ -28,7 +28,7 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    'vendor': ['vue', 'vue-router'],
+    'vendor': ['vue'],
     'iview-form': './examples/src/index.js'
   },
   output: {
