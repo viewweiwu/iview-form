@@ -1,27 +1,100 @@
 # iview-form
 
-> Configuration iview form
+> 让 iview 的 form 使用起来更加简单。
 
-## Build Setup
+## 安装
 
-``` bash
-# install dependencies
-npm install
+### npm（推荐方式）
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
+```bash
+$ npm install iview-form
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 使用方法
+
+```vue
+<template>
+  <iview-form @submit="onSubmit :formList="formList"></iview-form>
+</template>
+
+<script>
+import IviewForm from 'iview-form'
+
+export default {
+  components: {
+    IviewForm
+  },
+  data() {
+    return {
+      formList: [
+        {
+          title: '姓名',
+          type: 'input',
+          key: 'name'
+        }
+      ]
+    }
+  },
+  methods: {
+    onSubmit(form) {
+      console.log(form)
+    }
+  }
+}
+</script>
+```
+
+## iview-form 参数
+
+| 参数 | 说明 | 类型 | 默认值 |
+| - | - | - | - |
+| label-width | 标签的宽度 | Number | 100 |
+| inline | 是否显示成一行 | Boolean | false |
+| notCtrl | 是否不显示 提交、重置 按钮 | Boolean | false |
+| formList | 配置项（看下面 formList 参数） | Array | [] |
+| formatValue | type 为 date、datarange 的返回值的默认格式化 | String | 'yyyy-MM-dd' |
+| datetimeFormatValue | type 为 datetime、datetimerange 的返回值的默认格式化 | String | 'yyyy-MM-dd hh:mm:ss' |
+
+## formList 参数
+| 参数 | 说明 | 类型 | 默认值 |
+| - | - | - | - |
+| title | 显示的标签 | String | '' |
+| type | 不同的类型默认值不同，具体看下面 type 的种类 | String | '' |
+| key | 可以监听 submit 事件，返回的 form 里面的 key 就是你定义的 key | String | '' |
+| defaultValue | item 的默认值 | - | - |
+| props | 组件库自带的参数,可以参考 iview 组件库的文档 | Object | {} |
+| text | type 为 checkbox 或者 radio 时才有用，显示后面跟着的文字 | String | '' |
+| formatValue | type 为 date、datetime、daterange、datetimerange，返回会被格式化 | String | '' |
+| options | type 为 checkbox-group 或者 radio-group 时才有用，由 {value: 0, text: '苹果'} 组成，数据项支持异步 | Array | [] |
+| onInput | 监听参数改变事件 | Function | (value, item, form) |
+| renderTitle | 自定义标签 | Function | (h, item, form) |
+| renderContent | 自定义内容主题 | Function | (h, item, form) |
+| renderOption | type 为 select 时才有用，可以自定义 select 的 option | Function | (h, option, item) |
+
+
+## type 种类
+| 类型 | 默认值 |
+| - | - |
+| input | '' |
+| select | null |
+| checkbox | false |
+| checkbox-group | [] |
+| radio | false |
+| radio-group | [] |
+| date | 当前时间，例(2018-03-22) |
+| datetime | 当前时间，例(2018-03-22 17:37:20) |
+| daterange | ['', ''] |
+| datetimerange | ['', ''] |
+| switch | false |
+
+## 内置方法
+| 名称 | 说明 | 返回类型 | 返回值 |
+| - | - | - | - |
+| reset | 还原表单 | - | - |
+| getFormBykey | 根据 key 来获取这个 key 在 form 的值 | - | 打印出来你就知道了 |
+| getForm | 获取整个 form 的值 | - | 打印出来你就知道了 |
+
+## 事件
+| 名称 | 说明 | 返回类型 | 返回值 |
+| - | - | - | - |
+| submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form) |
