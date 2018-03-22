@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <iview-form inline @submit="onSubmit" :formList="formList"></iview-form>
+    <iview-form @submit="onSubmit" :formList="formList"></iview-form>
     <p>日期</p>
     <iview-form @submit="onSubmit" :formList="dateFormList"></iview-form>
   </div>
