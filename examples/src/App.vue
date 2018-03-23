@@ -8,14 +8,14 @@
       <p slot="title">
         完整示例
       </p>
-      <iViewForm :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
+      <iViewForm :key="1" :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
       <span slot="code">
         {{demo1}}
       </span>
     </Pnl>
     <Pnl>
       <p slot="title">日期示例</p>
-      <iViewForm :lib="lib" @submit="onSubmit" :formList="dateFormList"></iViewForm>
+      <iViewForm :key="2" :lib="lib" @submit="onSubmit" :formList="dateFormList"></iViewForm>
       <span slot="code">
         {{demo2}}
       </span>
@@ -27,6 +27,7 @@
         notCtrl
         enterSubmit
         @submit="onSubmit"
+        :key="3"
         :lib="lib"
         :label-width="80"
         :formList="loginFormList">

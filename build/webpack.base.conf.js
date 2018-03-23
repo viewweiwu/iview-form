@@ -45,6 +45,10 @@ module.exports = {
       'src': resolve('src')
     }
   },
+  externals: {
+    'element-ui/lib/theme-chalk/index.css': 'null',
+    'iview/dist/styles/iview.css': 'null'
+  },
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),

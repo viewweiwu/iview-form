@@ -11,6 +11,7 @@
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit",
     "build": "webpack --progress --hide-modules --config build/webpack.build.js",
+    "build:e": "webpack --progress --hide-modules --config build/webpack.build.min.js",
     "build:full": "webpack --progress --hide-modules --config build/webpack.build.js && rimraf examples/dist && cross-env NODE_ENV=production webpack --progress --hide-modules --config build/webpack.build.min.js"
   },
   "keywords": [

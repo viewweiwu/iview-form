@@ -38,7 +38,8 @@ const getPrefix = (tag, lib) => {
     'radio': 'radio',
     'radio-group': 'radio-group',
     'switch': 'i-switch',
-    'slider': 'slider'
+    'slider': 'slider',
+    'button': 'i-button'
   }
   let elementMap = {
     'form': 'el-form',
@@ -52,7 +53,8 @@ const getPrefix = (tag, lib) => {
     'radio': 'el-radio',
     'radio-group': 'el-radio-group',
     'switch': 'el-switch',
-    'slider': 'el-slider'
+    'slider': 'el-slider',
+    'button': 'el-button'
   }
 
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
@@ -239,17 +241,24 @@ export default {
     },
     // 渲染提交 按钮
     renderSubmit(h) {
-      if (this.lib === 'iview') {
-        return <form-item>
-          <i-button onClick={this.submit} type="primary">提交</i-button>
-          <i-button onClick={this.reset} style="margin-left: 10px">重置</i-button>
-        </form-item>
-      } else {
-        return <el-form-item>
-          <el-button onClick={this.submit} type="primary">提交</el-button>
-          <el-button onClick={this.reset} style="margin-left: 10px">重置</el-button>
-        </el-form-item>
-      }
+      return h(getPrefix('form-item', this.lib), [
+        h(getPrefix('button', this.lib), {
+          props: {
+            type: 'primary'
+          },
+          on: {
+            click: this.submit
+          }
+        }, '提交'),
+        h(getPrefix('button', this.lib), {
+          style: {
+            'margin-left': '10px'
+          },
+          on: {
+            click: this.reset
+          }
+        }, '重置')
+      ])
     },
     // 渲染 input
     renderInput(h, item) {
@@ -282,7 +291,7 @@ export default {
           ...(item.props || {})
         },
         children: item.options.map(option => {
-          return h(getPrefix('option', this.lib),{
+          return h(getPrefix('option', this.lib), {
             props: {
               label: option.text,
               value: option.value

@@ -119,7 +119,8 @@ exports.cdnLoader = (prod = false) => {
       {
         name: 'iview',
         var: 'iview',
-        path: 'dist/iview.js'
+        path: 'dist/iview.js',
+        style: 'dist/styles/iview.css',
       }
     ],
     prod,
