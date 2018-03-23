@@ -12,17 +12,17 @@ $ npm install iview-form
 
 ## 使用方法
 
-```vue
+``` html
 <template>
-  <iview-form @submit="onSubmit :formList="formList"></iview-form>
+  <iViewForm @submit="onSubmit :formList="formList"></iViewForm>
 </template>
 
 <script>
-import IviewForm from 'iview-form'
+import iViewForm from 'iview-form'
 
 export default {
   components: {
-    IviewForm
+    iViewForm
   },
   data() {
     return {
@@ -36,12 +36,16 @@ export default {
     }
   },
   methods: {
-    onSubmit(form) {
-      console.log(form)
+    onSubmit(form, valid) {
+      console.log(form, valid)
     }
   }
 }
 </script>
+```
+标签大小写随你心情
+``` html
+  <iview-form @submit="onSubmit :formList="formList"></iview-form>
 ```
 
 ## iview-form 参数
@@ -52,6 +56,10 @@ export default {
 | inline | 是否显示成一行 | Boolean | false |
 | notCtrl | 是否不显示 提交、重置 按钮 | Boolean | false |
 | formList | 配置项（看下面 formList 参数） | Array | [] |
+| lib | 可选值（'iview', 'element'），如果指定为 element 那么组件会按照 element 来渲染 | String | 'iview' |
+| enterSubmit | 如果设定这个值为 true，那么 input 按 enter 键会触发 submit 事件 | Boolean | false |
+| disabled | 如果设定这个值为 true，那么该表单下所有的表单元素都会被禁用 | Boolean | false |
+| autocomplete | iview 独占的 api | Boolean | 'off' |
 | formatValue | type 为 date、datarange 的返回值的默认格式化 | String | 'yyyy-MM-dd' |
 | datetimeFormatValue | type 为 datetime、datetimerange 的返回值的默认格式化 | String | 'yyyy-MM-dd hh:mm:ss' |
 
@@ -93,8 +101,9 @@ export default {
 | reset | 还原表单 | - | - |
 | getFormBykey | 根据 key 来获取这个 key 在 form 的值 | - | 打印出来你就知道了 |
 | getForm | 获取整个 form 的值 | - | 打印出来你就知道了 |
+| submit | 手动触发 submit 事件 | - | - |
 
 ## 事件
 | 名称 | 说明 | 返回类型 | 返回值 |
 | - | - | - | - |
-| submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form) |
+| submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |

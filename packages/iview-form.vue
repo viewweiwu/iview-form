@@ -331,7 +331,8 @@ export default {
         formatValue: formatValue,
         props: {
           clearable: true,
-          type: 'date',
+          type: item.type,
+          'value-format': formatValue,
           ...(item.props || {})
         }
       }
@@ -347,6 +348,7 @@ export default {
         props: {
           clearable: true,
           type: item.type,
+          'value-format': formatValue,
           ...(item.props || {})
         }
       }
@@ -424,11 +426,15 @@ export default {
       switch (item.type) {
         case 'date':
         case 'datetime':
-          value = formatDate(value, formatValue)
+          if (this.lib === 'iview') {
+            value = formatDate(value, formatValue)
+          }
           break
         case 'daterange':
         case 'datetimerange':
-          value = [formatDate(value[0], formatValue), formatDate(value[1], formatValue)]
+          if (this.lib === 'iview') {
+            value = [formatDate(value[0], formatValue), formatDate(value[1], formatValue)]
+          }
           break
       }
       return value

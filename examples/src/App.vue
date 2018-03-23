@@ -30,7 +30,7 @@
         :lib="lib"
         :label-width="80"
         :formList="loginFormList">
-        <Button @click="login" style="width: 300px" type="primary" long>登陆</Button>
+        <Button @click="login" style="width: 320px" type="primary" long>登陆</Button>
       </iViewForm>
       <span slot="code">
         {{demo3}}
@@ -118,7 +118,7 @@ export default {
       }, {
         title: '生日',
         type: 'date',
-        formatValue: 'yyyy年MM月dd日', // 指定返回格式
+        formatValue: 'yyyy年MM月dd日', // 指定  返回格式
         key: 'birthday'
       }, {
         title: 'radio',
@@ -185,7 +185,12 @@ export default {
       }, {
         title: 'datetimerange',
         type: 'datetimerange',
-        key: 'datetimerange'
+        key: 'datetimerange',
+        width: 300,
+        props: {
+          'start-placeholder': '开始日期',
+          'end-placeholder': '结束日期'
+        }
       }],
       loginFormList: [
         {
