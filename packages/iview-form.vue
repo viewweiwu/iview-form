@@ -39,7 +39,9 @@ const getPrefix = (tag, lib) => {
     'radio-group': 'radio-group',
     'switch': 'i-switch',
     'slider': 'slider',
-    'button': 'i-button'
+    'button': 'i-button',
+    'row': 'row',
+    'col': 'i-col'
   }
   let elementMap = {
     'form': 'el-form',
@@ -54,7 +56,9 @@ const getPrefix = (tag, lib) => {
     'radio-group': 'el-radio-group',
     'switch': 'el-switch',
     'slider': 'el-slider',
-    'button': 'el-button'
+    'button': 'el-button',
+    'row': 'el-row',
+    'col': 'el-col'
   }
 
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
@@ -170,59 +174,81 @@ export default {
     },
     renderFormList(h) {
       return this.formList.map(item => {
-        let content
-        switch (item.type) {
-          case 'input':
-            content = this.renderInput(h, item)
-            break
-          case 'select':
-            content = this.renderSelect(h, item)
-            break
-          case 'checkbox':
-            content = this.renderCheckbox(h, item)
-            break
-          case 'checkbox-group':
-            content = this.renderCheckboxGroup(h, item)
-            break
-          case 'date':
-            content = this.renderDatePicker(h, item, item.formatValue || this.formatValue)
-            break
-          case 'datetime':
-            content = this.renderDatePicker(h, item, item.formatValue || this.datetimeFormatValue)
-            break
-          case 'daterange':
-            content = this.renderDateRange(h, item, item.formatValue || this.formatValue)
-            break
-          case 'datetimerange':
-            content = this.renderDateRange(h, item, item.formatValue || this.datetimeFormatValue)
-            break
-          case 'radio':
-            content = this.renderRadio(h, item)
-            break
-          case 'radio-group':
-            content = this.renderRadioGroup(h, item)
-            break
-          case 'switch':
-            content = this.renderSwitch(h, item)
-            break
-          case 'slider':
-            content = this.renderSlider(h, item)
-            break
-          default:
-            if (typeof item.renderContent === 'function') {
-              content = item.renderContent(h, item, this.form)
-            }
-            break
+        let content = this.getContent(h, item)
+        let isRow = item.type === 'row'
+        if (isRow) {
+          return h(getPrefix('row', this.lib), [
+            ...item.children.map(col => h(getPrefix('col', this.lib), {
+              props: {
+                span: col.span
+              }
+            }, [
+              this.getFormItem(h, col, this.getContent(h, col))
+            ]))
+          ])
+        } else {
+          return this.getFormItem(h, item, content)
         }
-        return h(getPrefix('form-item', this.lib), {
-          props: {
-            prop: item.key
-          }
-        }, [
-          this.renderTitle(h, item),
-          content
-        ])
       })
+    },
+    getContent(h, item) {
+      let content
+      switch (item.type) {
+        case 'input':
+          content = this.renderInput(h, item)
+          break
+        case 'select':
+          content = this.renderSelect(h, item)
+          break
+        case 'checkbox':
+          content = this.renderCheckbox(h, item)
+          break
+        case 'checkbox-group':
+          content = this.renderCheckboxGroup(h, item)
+          break
+        case 'date':
+          content = this.renderDatePicker(h, item, item.formatValue || this.formatValue)
+          break
+        case 'datetime':
+          content = this.renderDatePicker(h, item, item.formatValue || this.datetimeFormatValue)
+          break
+        case 'daterange':
+          content = this.renderDateRange(h, item, item.formatValue || this.formatValue)
+          break
+        case 'datetimerange':
+          content = this.renderDateRange(h, item, item.formatValue || this.datetimeFormatValue)
+          break
+        case 'radio':
+          content = this.renderRadio(h, item)
+          break
+        case 'radio-group':
+          content = this.renderRadioGroup(h, item)
+          break
+        case 'switch':
+          content = this.renderSwitch(h, item)
+          break
+        case 'slider':
+          content = this.renderSlider(h, item)
+          break
+        case 'row':
+          break
+        default:
+          if (typeof item.renderContent === 'function') {
+            content = item.renderContent(h, item, this.form)
+          }
+          break
+      }
+      return content
+    },
+    getFormItem(h, item, content) {
+      return h(getPrefix('form-item', this.lib), {
+        props: {
+          prop: item.key
+        }
+      }, [
+        this.renderTitle(h, item),
+        content
+      ])
     },
     // 渲染 title
     renderTitle(h, item) {

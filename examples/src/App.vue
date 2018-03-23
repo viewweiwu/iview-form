@@ -60,6 +60,24 @@ export default {
       demo3,
       lib: 'element',
       formList: [{
+        type: 'row',
+        children: [{
+          span: 8,
+          title: 'a',
+          type: 'input',
+          width: 200
+        }, {
+          span: 8,
+          title: 'b',
+          type: 'input',
+          width: 200
+        }, {
+          span: 8,
+          title: 'c',
+          type: 'input',
+          width: 200
+        }]
+      }, {
         title: '姓名',
         type: 'input',
         key: 'name',
