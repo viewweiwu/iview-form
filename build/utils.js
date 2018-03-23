@@ -99,3 +99,31 @@ exports.createNotifierCallback = () => {
     })
   }
 }
+
+exports.cdnLoader = (prod = false) => {
+  return {
+    modules: [
+      {
+        name: 'vue',
+        var: 'Vue',
+        // path: 'dist/vue.runtime.js'
+        path: 'dist/vue.js'
+        // path: 'dist/vue.runtime.min.js'
+      },
+      {
+        name: 'element-ui',
+        var: 'ELEMENT',
+        style: 'lib/theme-chalk/index.css',
+        path: 'lib/index.js'
+      },
+      {
+        name: 'iview',
+        var: 'iview',
+        path: 'dist/iview.js'
+      }
+    ],
+    prod,
+    publicPath: '/node_modules',
+    prodUrl: '//cdn.jsdelivr.net/npm/:name@:version/:path'
+  }
+}

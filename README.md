@@ -14,7 +14,7 @@ $ npm install iview-form
 
 ``` html
 <template>
-  <iViewForm @submit="onSubmit :formList="formList"></iViewForm>
+  <iViewForm @submit="onSubmit" :formList="formList"></iViewForm>
 </template>
 
 <script>
@@ -45,7 +45,7 @@ export default {
 ```
 标签大小写随你心情
 ``` html
-  <iview-form @submit="onSubmit :formList="formList"></iview-form>
+  <iview-form @submit="onSubmit" :formList="formList"></iview-form>
 ```
 
 ## iview-form 参数

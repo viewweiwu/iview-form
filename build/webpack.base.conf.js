@@ -6,6 +6,7 @@ const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WebpackCdnPlugin = require('webpack-cdn-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -128,6 +129,7 @@ module.exports = {
       template: 'examples/src/index.tpl',
       filename: 'index.html',
       inject: true
-    })
+    }),
+    new WebpackCdnPlugin(utils.cdnLoader(true))
   ]
 }
