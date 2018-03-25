@@ -203,7 +203,7 @@ export default {
             props: {
               color: 'red'
             }
-          }, form['name'] + form['interest'])
+          }, 'hello')
         }
       }, {
         title: '备注',
