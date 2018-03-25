@@ -2,7 +2,7 @@
   "name": "iview-form",
   "version": "1.0.3",
   "description": "Configuration iview form",
-  "author": "viewweiwu",
+  "author": "viewweiwu <648764190@qq.com>",
   "private": false,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

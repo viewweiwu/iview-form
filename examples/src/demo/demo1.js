@@ -70,7 +70,6 @@ export default {
       }, {
         title: '生日',
         type: 'date',
-        formatValue: 'yyyy年MM月dd日', // 指定返回格式
         key: 'birthday'
       }, {
         title: 'radio',
