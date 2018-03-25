@@ -42,8 +42,8 @@ export default {
       ]
   },
   methods: {
-    onSubmit(form) {
-      console.log(form)
+    onSubmit(form, valid) {
+      console.log(form, valid)
     }
   }
 }

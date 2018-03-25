@@ -9,9 +9,11 @@
           <slot></slot>
         </div>
         <div class="code">
-          <highlight-code lang="html">
-            <slot name="code"></slot>
-          </highlight-code>
+          <pre ref="code">
+            <code>
+              <slot name="code"></slot>
+            </code>
+          </pre>
         </div>
       </div>
       <Button @click="isFull = !isFull" class="mt" type="primary" long>{{isFull ? '隐藏' : '展开'}}</Button>
@@ -25,6 +27,12 @@ export default {
     return {
       isFull: false
     }
+  },
+  mounted() {
+    window.hljs.highlightBlock(this.$refs.code)
+    // this.$refs.code.forEach(item => {
+    //   console.log(item)
+    // })
   }
 }
 </script>
@@ -48,6 +56,7 @@ export default {
   .code {
     width: 50%;
     overflow: auto;
+    font-size: 16px;
   }
   .pnl-content {
     width: 100%;

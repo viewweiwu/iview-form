@@ -19,7 +19,7 @@ export default {
           placeholder: '请输入姓名'
         },
         onInput: (value, item, form) => console.log(value),
-        renderTitle: (h, item, form) => h('span', { style: 'color: red' }, item.title)
+        renderTitle: (h, item, form) => h('span', { style: 'color: blue' }, item.title)
       }, {
         title: '特长',
         type: 'select',

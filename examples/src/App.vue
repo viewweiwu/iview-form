@@ -1,40 +1,86 @@
 <template>
   <div id="app">
-    <p>
-      <Button size="small" type="error" v-if="lib === 'iview'" @click="lib = 'element'">切换到 element</Button>
-      <el-button size="mini" type="success" v-if="lib === 'element'" @click="lib = 'iview'">切换到 iview</el-button>
-    </p>
+    <div class="app-header">
+      <span class="title">iView-form</span>
+      <span>
+        <i-button type="error" v-if="lib === 'iview'" @click="lib = 'element'">切换到 element-ui 版本</i-button>
+        <i-button type="primary" v-if="lib === 'element'" @click="lib = 'iview'">切换到 iview 版本</i-button>
+        <i-button class="ms" @click="jumpPage('https://github.com/viewweiwu/iview-form')" icon="social-github">github</i-button>
+      </span>
+    </div>
     <Pnl>
       <p slot="title">
         完整示例
       </p>
-      <iViewForm :key="1" :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
+      <iViewForm :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
       <span slot="code">
         {{demo1}}
       </span>
     </Pnl>
     <Pnl>
       <p slot="title">日期示例</p>
-      <iViewForm :key="2" :lib="lib" @submit="onSubmit" :formList="dateFormList"></iViewForm>
+      <iViewForm :lib="lib" @submit="onSubmit" :formList="dateFormList"></iViewForm>
       <span slot="code">
         {{demo2}}
       </span>
     </Pnl>
     <Pnl>
       <p slot="title">登陆示例</p>
+      <p>按 enter 会出发 submit 事件哦！</p>
+      <p style="margin-bottom: 20px">设定了 rule 之后，submit 时会自动校验</p>
       <iViewForm
         ref="loginForm"
         notCtrl
         enterSubmit
         @submit="onSubmit"
-        :key="3"
         :lib="lib"
         :label-width="80"
         :formList="loginFormList">
-        <Button @click="login" style="width: 320px" type="primary" long>登陆</Button>
+        <i-button @click="login" style="width: 320px" type="primary" long>登陆</i-button>
       </iViewForm>
       <span slot="code">
         {{demo3}}
+      </span>
+    </Pnl>
+    <Pnl>
+      <p slot="title">【grid】网格布局</p>
+      <p class="ms">grid: 2</p>
+      <iViewForm
+        ref="loginForm"
+        enterSubmit
+        @submit="onSubmit"
+        :grid="2"
+        :lib="lib"
+        :label-width="40"
+        contentWidth="auto"
+        :formList="rowFormList">
+      </iViewForm>
+      <hr>
+      <p class="ms">grid: [3, 1, 2]</p>
+      <iViewForm
+        ref="loginForm"
+        enterSubmit
+        @submit="onSubmit"
+        :grid="[3, 1, 2]"
+        :lib="lib"
+        :label-width="40"
+        contentWidth="auto"
+        :formList="rowFormList">
+      </iViewForm>
+      <hr>
+      <p class="ms">grid: [[6, 12, 6], [12, 12], [24]]</p>
+      <iViewForm
+        ref="loginForm"
+        enterSubmit
+        @submit="onSubmit"
+        :grid="[[6, 12, 6], [12, 12], [24]]"
+        :lib="lib"
+        :label-width="40"
+        contentWidth="auto"
+        :formList="rowFormList">
+      </iViewForm>
+      <span slot="code">
+        {{demoGrid}}
       </span>
     </Pnl>
   </div>
@@ -46,6 +92,7 @@ import Pnl from './Pnl'
 import demo1 from './demo/demo1'
 import demo2 from './demo/demo2'
 import demo3 from './demo/demo3'
+import demoGrid from './demo/demoGrid'
 
 export default {
   name: 'App',
@@ -58,26 +105,9 @@ export default {
       demo1,
       demo2,
       demo3,
-      lib: 'element',
+      demoGrid,
+      lib: 'iview',
       formList: [{
-        type: 'row',
-        children: [{
-          span: 8,
-          title: 'a',
-          type: 'input',
-          width: 200
-        }, {
-          span: 8,
-          title: 'b',
-          type: 'input',
-          width: 200
-        }, {
-          span: 8,
-          title: 'c',
-          type: 'input',
-          width: 200
-        }]
-      }, {
         title: '姓名',
         type: 'input',
         key: 'name',
@@ -85,12 +115,16 @@ export default {
           placeholder: '请输入姓名'
         },
         onInput: (value, item, form) => console.log(value),
-        renderTitle: (h, item, form) => h('span', { style: 'color: red' }, item.title)
+        renderTitle: (h, item, form) => h('span', { style: 'color: #6cf' }, item.title)
       }, {
         title: '特长',
         type: 'select',
         key: 'interest',
-        defaultValue: 2,
+        defaultValue: [],
+        props: {
+          multiple: true,
+          placeholder: '请选择兴趣'
+        },
         options: [{
           value: 0,
           text: '上班'
@@ -103,10 +137,7 @@ export default {
         }, {
           value: 3,
           text: '偷懒'
-        }],
-        props: {
-          placeholder: '请选择兴趣'
-        }
+        }]
       }, {
         title: '零花钱',
         type: 'slider',
@@ -137,7 +168,6 @@ export default {
       }, {
         title: '生日',
         type: 'date',
-        formatValue: 'yyyy年MM月dd日', // 指定  返回格式
         key: 'birthday'
       }, {
         title: 'radio',
@@ -173,7 +203,7 @@ export default {
             props: {
               color: 'red'
             }
-          }, 'hello')
+          }, form['name'] + form['interest'])
         }
       }, {
         title: '备注',
@@ -187,16 +217,11 @@ export default {
       dateFormList: [{
         title: 'date',
         type: 'date',
-        formatValue: 'yyyy年MM月dd日', // 指定返回格式
         key: 'birthday'
       }, {
         title: 'datetime',
         type: 'datetime',
-        key: 'datetime',
-        props: {
-          type: 'datetime',
-          format: 'yyyy-MM-dd hh:mm' // 这里不填的话 自动有秒
-        }
+        key: 'datetime'
       }, {
         title: 'daterange',
         type: 'daterange',
@@ -205,7 +230,6 @@ export default {
         title: 'datetimerange',
         type: 'datetimerange',
         key: 'datetimerange',
-        width: 300,
         props: {
           'start-placeholder': '开始日期',
           'end-placeholder': '结束日期'
@@ -231,7 +255,32 @@ export default {
             placeholder: '请输入密码'
           }
         }
-      ]
+      ],
+      rowFormList: [{
+        title: 'a',
+        type: 'input',
+        key: 'a'
+      }, {
+        title: 'b',
+        type: 'input',
+        key: 'b'
+      }, {
+        title: 'c',
+        type: 'input',
+        key: 'c'
+      }, {
+        title: 'd',
+        type: 'slider',
+        key: 'd'
+      }, {
+        title: 'e',
+        type: 'slider',
+        key: 'e'
+      }, {
+        title: 'f',
+        type: 'input',
+        key: 'f'
+      }]
     }
   },
   methods: {
@@ -249,6 +298,9 @@ export default {
     },
     login() {
       this.$refs['loginForm'].submit()
+    },
+    jumpPage(target) {
+      window.open(target)
     }
   }
 }
@@ -256,12 +308,35 @@ export default {
 
 <style lang="less">
   body {
-    padding: 50px;
+    padding: 100px 50px 50px;
     background-color: #fafafa;
+  }
+  .app-header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    padding: 10px 30px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 0 5px #ccc;
+    background-color: #fff;
+    z-index: 10;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title {
+      font-size: 40px;
+      text-shadow: 1px 1px 2px #fff,
+        1px 1px 2px #000;
+    }
   }
   .el-checkbox + .el-checkbox,
   .el-radio + .el-radio {
     margin-left: 10px;
     margin-right: 10px;
+  }
+  .ms {
+    margin: 10px;
   }
 </style>

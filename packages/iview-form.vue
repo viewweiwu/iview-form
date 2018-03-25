@@ -1,30 +1,4 @@
 <script>
-const formatDate = (date, formatValue) => {
-  if (!date) return ''
-  if (typeof date === 'string') {
-    date = date.replace(/-/g, '/')
-  }
-  date = new Date(date)
-  let o = {
-    'M+': date.getMonth() + 1, // 月份
-    'd+': date.getDate(), // 日
-    'h+': date.getHours(), // 小时
-    'm+': date.getMinutes(), // 分
-    's+': date.getSeconds(), // 秒
-    'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
-    'S': date.getMilliseconds() // 毫秒
-  }
-  if (/(y+)/.test(formatValue)) {
-    formatValue = formatValue.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-  }
-  for (let k in o) {
-    if (new RegExp('(' + k + ')').test(formatValue)) {
-      formatValue = formatValue.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
-    }
-  }
-  return formatValue
-}
-
 const getPrefix = (tag, lib) => {
   let iviewMap = {
     'form': 'i-form',
@@ -64,9 +38,20 @@ const getPrefix = (tag, lib) => {
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
 }
 
+const flatten = (arr) => {
+  let list = []
+  if (Array.isArray(arr)) {
+    arr.forEach(item => Array.isArray(item) ? list.push(...flatten(item)) : list.push(item))
+  }
+  return list
+}
+
 export default {
   name: 'iview-form',
   props: {
+    grid: {
+      type: [Array, Number]
+    },
     formList: {
       type: Array,
       default: () => []
@@ -99,13 +84,9 @@ export default {
       type: Number,
       default: 100
     },
-    'formatValue': {
-      type: String,
-      default: 'yyyy-MM-dd'
-    },
-    'datetimeFormatValue': {
-      type: String,
-      default: 'yyyy-MM-dd hh:mm:ss'
+    'content-width': {
+      type: [Number, String],
+      default: 240
     }
   },
   data() {
@@ -145,6 +126,9 @@ export default {
         }
       })
       return rules
+    },
+    gridNum() {
+      return this.grid
     }
   },
   methods: {
@@ -155,12 +139,13 @@ export default {
         'select': null,
         'checkbox': false,
         'checkbox-group': [],
-        'date': formatDate(new Date(), this.formatValue),
-        'datetime': formatDate(new Date(), this.datetimeFormatValue),
+        'date': new Date(),
+        'datetime': new Date(),
         'daterange': [],
         'datetimerange': [],
         'radio': false,
         'radio-group': '',
+        'slider': 0,
         'switch': false
       }
       this.formList.forEach(item => {
@@ -173,23 +158,108 @@ export default {
       return form
     },
     renderFormList(h) {
-      return this.formList.map(item => {
-        let content = this.getContent(h, item)
-        let isRow = item.type === 'row'
-        if (isRow) {
-          return h(getPrefix('row', this.lib), [
-            ...item.children.map(col => h(getPrefix('col', this.lib), {
-              props: {
-                span: col.span
-              }
-            }, [
-              this.getFormItem(h, col, this.getContent(h, col))
-            ]))
-          ])
+      let list = []
+      let grid = this.grid
+      // 处理 grid 为不同值时
+      if (typeof grid === 'number') {
+        list = this.getFormListByNumber(h)
+      } else if (Array.isArray(grid)) {
+        if (grid.every(item => !Array.isArray(item))) {
+          list = this.getFormListByArray(h)
         } else {
-          return this.getFormItem(h, item, content)
+          list = this.getFormListByGrid(h)
         }
+      } else {
+        list = this.getFormList(h)
+      }
+      return list
+    },
+    getFormList(h) {
+      return this.formList.map(item => {
+        return this.getFormItem(h, item, this.getContent(h, item))
       })
+    },
+    // 当 grid 为数字时
+    getFormListByNumber(h) {
+      let list = []
+      // 过滤 grid
+      let grid = ~~Math.abs(this.grid)
+      if (grid < 1) grid = 1
+      for (let i = 0; i < this.formList.length; i += grid) {
+        let childrenList = []
+        // 获取当前分成几列 grid 为 number 时
+        for (let j = 0; j < grid && i + j < this.formList.length; j++) {
+          let children = this.formList[i + j]
+          if (!children) break
+          let childrenItem = this.getFormItem(h, children, this.getContent(h, children))
+          let childrenParts = h(getPrefix('col', this.lib), {
+            props: {
+              span: 24 / grid
+            }
+          }, [
+            childrenItem
+          ])
+          childrenList.push(childrenParts)
+        }
+        let row = h(getPrefix('row', this.lib), childrenList)
+        list.push(row)
+      }
+      return list
+    },
+    // 当 grid 为一维数组时
+    getFormListByArray(h) {
+      let list = []
+      let gridIndex = 0
+      for (let i = 0; i < this.formList.length;) {
+        let childrenList = []
+        let grid = this.grid[gridIndex]
+        for (let j = 0; j < grid; j++) {
+          let children = this.formList[i + j]
+          if (!children) break
+          let childrenItem = this.getFormItem(h, children, this.getContent(h, children))
+          let childrenParts = h(getPrefix('col', this.lib), {
+            props: {
+              span: 24 / grid
+            }
+          }, [
+            childrenItem
+          ])
+          childrenList.push(childrenParts)
+        }
+        let row = h(getPrefix('row', this.lib), childrenList)
+        list.push(row)
+        gridIndex += 1
+        i += grid
+      }
+      return list
+    },
+    // 当 grid 为二维数组
+    getFormListByGrid(h) {
+      let list = []
+      let gridIndex = 0
+      for (let i = 0; i < this.formList.length;) {
+        let childrenList = []
+        let grid = this.grid[gridIndex]
+        if (!grid) grid = [1]
+        for (let j = 0; j < grid.length; j++) {
+          let children = this.formList[i + j]
+          if (!children) break
+          let childrenItem = this.getFormItem(h, children, this.getContent(h, children))
+          let childrenParts = h(getPrefix('col', this.lib), {
+            props: {
+              span: grid[j]
+            }
+          }, [
+            childrenItem
+          ])
+          childrenList.push(childrenParts)
+        }
+        let row = h(getPrefix('row', this.lib), childrenList)
+        list.push(row)
+        gridIndex += 1
+        i += grid.length
+      }
+      return list
     },
     getContent(h, item) {
       let content
@@ -207,16 +277,16 @@ export default {
           content = this.renderCheckboxGroup(h, item)
           break
         case 'date':
-          content = this.renderDatePicker(h, item, item.formatValue || this.formatValue)
+          content = this.renderDatePicker(h, item)
           break
         case 'datetime':
-          content = this.renderDatePicker(h, item, item.formatValue || this.datetimeFormatValue)
+          content = this.renderDatePicker(h, item)
           break
         case 'daterange':
-          content = this.renderDateRange(h, item, item.formatValue || this.formatValue)
+          content = this.renderDateRange(h, item)
           break
         case 'datetimerange':
-          content = this.renderDateRange(h, item, item.formatValue || this.datetimeFormatValue)
+          content = this.renderDateRange(h, item)
           break
         case 'radio':
           content = this.renderRadio(h, item)
@@ -358,32 +428,28 @@ export default {
       return this.generateTag(tag)
     },
     // 渲染 datepicker
-    renderDatePicker(h, item, formatValue) {
+    renderDatePicker(h, item) {
       let tag = {
         h,
         item,
         tagName: getPrefix('date-picker', this.lib),
-        formatValue: formatValue,
         props: {
           clearable: true,
           type: item.type,
-          'value-format': formatValue,
           ...(item.props || {})
         }
       }
       return this.generateTag(tag)
     },
     // 渲染范围的 daterange
-    renderDateRange(h, item, formatValue) {
+    renderDateRange(h, item) {
       let tag = {
         h,
         item,
         tagName: getPrefix('date-picker', this.lib),
-        formatValue: formatValue,
         props: {
           clearable: true,
           type: item.type,
-          'value-format': formatValue,
           ...(item.props || {})
         }
       }
@@ -435,7 +501,7 @@ export default {
       return this.generateTag(tag)
     },
     // 生产 tag
-    generateTag({h, item, tagName, props, children, formatValue, on = {}, nativeOn = {}}) {
+    generateTag({h, item, tagName, props, children, on = {}, nativeOn = {}}) {
       return h(tagName, {
         props: {
           value: this.form[item.key],
@@ -443,11 +509,11 @@ export default {
           disabled: this.disabled || item.disabled
         },
         style: {
-          width: item.width || 240 + 'px'
+          width: item.type === 'switch' ? null : (item.width || this['contentWidth']) + 'px'
         },
         on: {
           input: (value) => {
-            value = this.formatDateValue(value, item, formatValue)
+            value = this.formatDateValue(value, item)
             this.form[item.key] = value
             this.emitInput(value, item)
           },
@@ -456,19 +522,19 @@ export default {
         nativeOn
       }, children)
     },
-    // 时间 format
-    formatDateValue(value, item, formatValue) {
+    // 格式化日期返回，避免 null 的出现
+    formatDateValue(value, item) {
       switch (item.type) {
         case 'date':
-        case 'datetime':
-          if (this.lib === 'iview') {
-            value = formatDate(value, formatValue)
+        case 'datetitme':
+          if (!value) {
+            value = ''
           }
           break
         case 'daterange':
         case 'datetimerange':
-          if (this.lib === 'iview') {
-            value = [formatDate(value[0], formatValue), formatDate(value[1], formatValue)]
+          if (!value) {
+            value = ['', '']
           }
           break
       }
@@ -494,6 +560,7 @@ export default {
     getFormBykey(key) {
       return this.form[key]
     },
+    // 获取整个 form
     getForm() {
       return {
         ...this.form

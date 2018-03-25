@@ -14,16 +14,11 @@ export default {
       formList: [{
         title: 'date',
         type: 'date',
-        formatValue: 'yyyy年MM月dd日', // 指定返回格式
         key: 'birthday'
       }, {
         title: 'datetime',
         type: 'datetime',
-        key: 'datetime',
-        props: {
-          type: 'datetime',
-          format: 'yyyy-MM-dd hh:mm' // 这里不填的话 自动有秒
-        }
+        key: 'datetime'
       }, {
         title: 'daterange',
         type: 'daterange',
