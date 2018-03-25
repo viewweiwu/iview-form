@@ -38,12 +38,8 @@ const getPrefix = (tag, lib) => {
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
 }
 
-const flatten = (arr) => {
-  let list = []
-  if (Array.isArray(arr)) {
-    arr.forEach(item => Array.isArray(item) ? list.push(...flatten(item)) : list.push(item))
-  }
-  return list
+const getRandomId = () => {
+  return Math.random() * 10000000 + ''
 }
 
 export default {
@@ -361,7 +357,7 @@ export default {
       let tag = {
         h,
         item,
-        tagName: getPrefix('input', this.lib),
+        tagName: 'el-input',
         props: {
           clearable: true,
           ...(item.props || {})
@@ -375,6 +371,7 @@ export default {
         }
       }
       return this.generateTag(tag)
+      // return h(getPrefix('input'))
     },
     // 渲染 select
     renderSelect(h, item) {
@@ -436,6 +433,7 @@ export default {
         props: {
           clearable: true,
           type: item.type,
+          id: item.id || getRandomId(),
           ...(item.props || {})
         }
       }
@@ -450,6 +448,7 @@ export default {
         props: {
           clearable: true,
           type: item.type,
+          id: item.id || getRandomId(),
           ...(item.props || {})
         }
       }
