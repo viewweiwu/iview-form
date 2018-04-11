@@ -12,7 +12,7 @@
       <p slot="title">
         完整示例
       </p>
-      <iViewForm submitText="submit" :hasResetBtn="false" :options="{size: 'small'}" :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
+      <iViewForm :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
       <span slot="code">
         {{demo1}}
       </span>
