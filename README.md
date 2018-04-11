@@ -63,12 +63,16 @@ export default {
 | formList | 配置项（看下面 formList 参数） | Array | [] |
 | notCtrl | 是否不显示 提交、重置 按钮 | Boolean | false |
 | inline | 是否显示成一行 | Boolean | false |
-| autocomplete | iview 独占的 api | Boolean | 'off' |
 | enterSubmit | 如果设定这个值为 true，那么 input 按 enter 键会触发 submit 事件 | Boolean | false |
 | lib | 可选值（'iview', 'element'），如果指定为 element 那么组件会按照 element 来渲染 | String | 'iview' |
 | disabled | 如果设定这个值为 true，那么该表单下所有的表单元素都会被禁用 | Boolean | false |
 | label-width | 标签的宽度 | Number | 100 |
 | content-width | 内容的宽度 | Number | 240 |
+| options | iView 和 element-ui 原生 props ( :options="{size: 'small'}" ) | Object | {} |
+| submitText | 提交按钮文本 | String | '提交' |
+| resetText | 重置按钮文本 | String | '重置' |
+| hasSubmitBtn | 是否显示提交按钮 | Boolean | true |
+| hasResetBtn | 是否显示重置按钮 | Boolean | true |
 
 ## formList 参数
 | 参数 | 说明 | 类型 | 默认值 |
@@ -114,5 +118,13 @@ export default {
 | 名称 | 说明 | 返回类型 | 返回值 |
 | - | - | - | - |
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
+
+## 更新日志
+### 1.0.5
+
+1. 添加 options 自定义组建自带 props 属性
+2. 添加 hasSubmitBtn、hasResetBtn 自定义是否显示按钮属性
+3. 添加 submitText、resetText 自定义按钮文本属性
+4. 删除 autocomplete 属性
 
 [1]: https://viewweiwu.github.io/iview-form/examples/dist/
