@@ -83,6 +83,17 @@
         {{demoGrid}}
       </span>
     </Pnl>
+    <Pnl>
+      <p slot="title">【render】自定义 render</p>
+      <iViewForm
+        ref="loginForm"
+        @submit="onSubmit"
+        :formList="customFormList">
+      </iViewForm>
+      <span slot="code">
+        {{demoRender}}
+      </span>
+    </Pnl>
   </div>
 </template>
 
@@ -93,6 +104,7 @@ import demo1 from './demo/demo1'
 import demo2 from './demo/demo2'
 import demo3 from './demo/demo3'
 import demoGrid from './demo/demoGrid'
+import demoRender from './demo/demoRender'
 
 export default {
   name: 'App',
@@ -106,23 +118,24 @@ export default {
       demo2,
       demo3,
       demoGrid,
+      demoRender,
       lib: 'iview',
       formList: [{
         title: '姓名',
         type: 'input',
         key: 'name',
-        props: {
-          placeholder: '请输入姓名'
-        },
-        onInput: (value, item, form) => console.log(value),
-        renderTitle: (h, item, form) => h('span', { style: 'color: #6cf' }, item.title)
+        attrs: {
+          placeholder: 'input 的 placeholder 需要写在 attrs 里面'
+        }
       }, {
         title: '特长',
         type: 'select',
         key: 'interest',
         defaultValue: [],
         props: {
-          multiple: true,
+          multiple: true
+        },
+        attrs: {
           placeholder: '请选择兴趣'
         },
         options: [{
@@ -197,20 +210,13 @@ export default {
         type: 'switch',
         key: 'switch'
       }, {
-        title: 'custom',
-        renderContent: (h, item, form) => {
-          return h('tag', {
-            props: {
-              color: 'red'
-            }
-          }, 'hello')
-        }
-      }, {
         title: '备注',
         type: 'input',
         key: 'remark',
         props: {
-          type: 'textarea',
+          type: 'textarea'
+        },
+        attrs: {
           placeholder: '请输入备注'
         }
       }],
@@ -241,7 +247,7 @@ export default {
           type: 'input',
           key: 'username',
           rule: { required: true, message: '请输入用户名', trigger: 'blur' },
-          props: {
+          attrs: {
             placeholder: '请输入用户名'
           }
         },
@@ -251,7 +257,9 @@ export default {
           key: 'password',
           rule: { required: true, message: '请输入密码', trigger: 'blur' },
           props: {
-            type: 'password',
+            type: 'password'
+          },
+          attrs: {
             placeholder: '请输入密码'
           }
         }
@@ -280,15 +288,85 @@ export default {
         title: 'f',
         type: 'input',
         key: 'f'
-      }]
+      }],
+      customFormList: [
+        {
+          title: '你好哇',
+          key: 'c1',
+          type: 'input',
+          attrs: {
+            placeholder: '你看 title 是蓝色的'
+          },
+          renderTitle: (h, item, form) => h('span', { style: 'color: #6cf' }, item.title)
+        },
+        {
+          title: '你好哇',
+          key: 'c2',
+          renderContent: (h, item, form) => {
+            let $input = h('i-input', {
+              props: {
+                value: form['custom']
+              },
+              style: {
+                width: '240px'
+              },
+              on: {
+                input: (value) => {
+                  form['custom'] = value
+                }
+              }
+            })
+            return h('div', [
+              $input,
+              h('p', {
+                style: {
+                  color: '#999'
+                }
+              }, '这里是自定义 content')
+            ])
+          }
+        }, {
+          render: (h, item, form) => {
+            return h('h2', '我猜你可能需要整个自定义')
+          }
+        }, {
+          title: '组合',
+          key: 'c4',
+          renderTitle: (h) => {
+            return h('checkbox', '组合')
+          },
+          renderContent: (h, item, form) => {
+            return h('rate', {
+              props: {
+                value: 3
+              }
+            })
+          }
+        }, {
+          title: '',
+          key: 'c5',
+          type: 'input',
+          attrs: {
+            placeholder: '你有可能不需要 title'
+          }
+        }
+      ]
+    }
+  },
+  watch: {
+    lib() {
+      this.$Notice.info({
+        title: '提醒',
+        desc: '如果看到 placeholder 消失了，不要感觉奇怪，实际项目中，你不会有两种组件库来回切换这样的场景的'
+      })
     }
   },
   methods: {
     onSubmit(form, valid) {
       if (valid) {
-        this.$Modal.info({
+        this.$Notice.info({
           title: '你得到的值',
-          content: '请在 console 里面看你得到的值'
+          desc: '请在 console 里面看你得到的值'
         })
         console.log(form, valid)
       } else {

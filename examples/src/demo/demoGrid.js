@@ -2,7 +2,6 @@ export default `
 <template>
   <div>
     <iViewForm
-      ref="loginForm"
       enterSubmit
       @submit="onSubmit"
       :grid="2"
@@ -12,7 +11,6 @@ export default `
       :formList="formList">
     </iViewForm>
     <iViewForm
-      ref="loginForm"
       enterSubmit
       @submit="onSubmit"
       :grid="[3, 1, 2]"
@@ -22,7 +20,6 @@ export default `
       :formList="formList">
     </iViewForm>
     <iViewForm
-      ref="loginForm"
       enterSubmit
       @submit="onSubmit"
       :grid="[[6, 12, 6], [12, 12], [24]]"

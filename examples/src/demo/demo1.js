@@ -15,16 +15,20 @@ export default {
         title: '姓名',
         type: 'input',
         key: 'name',
-        props: {
-          placeholder: '请输入姓名'
-        },
-        onInput: (value, item, form) => console.log(value),
-        renderTitle: (h, item, form) => h('span', { style: 'color: blue' }, item.title)
+        attrs: {
+          placeholder: 'input 的 placeholder 需要写在 attrs 里面'
+        }
       }, {
         title: '特长',
         type: 'select',
         key: 'interest',
-        defaultValue: 2,
+        defaultValue: [],
+        props: {
+          multiple: true
+        },
+        attrs: {
+          placeholder: '请选择兴趣'
+        },
         options: [{
           value: 0,
           text: '上班'
@@ -37,10 +41,7 @@ export default {
         }, {
           value: 3,
           text: '偷懒'
-        }],
-        props: {
-          placeholder: '请选择兴趣'
-        }
+        }]
       }, {
         title: '零花钱',
         type: 'slider',
@@ -54,6 +55,7 @@ export default {
         title: '喜欢的食物',
         type: 'checkbox-group',
         key: 'foods',
+        width: 'auto',
         options: [{
           value: 0,
           text: '草莓'
@@ -80,6 +82,7 @@ export default {
         type: 'radio-group',
         key: 'radio-group',
         defaultValue: 0,
+        width: 'auto',
         options: [{
           value: 0,
           text: '冬瓜'
@@ -98,20 +101,13 @@ export default {
         type: 'switch',
         key: 'switch'
       }, {
-        title: 'custom',
-        renderContent: (h, item, form) => {
-          return h('tag', {
-            props: {
-              color: 'red'
-            }
-          }, 'hello')
-        }
-      }, {
         title: '备注',
         type: 'input',
         key: 'remark',
         props: {
-          type: 'textarea',
+          type: 'textarea'
+        },
+        attrs: {
           placeholder: '请输入备注'
         }
       }]

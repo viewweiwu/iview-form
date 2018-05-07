@@ -1,6 +1,6 @@
 {
   "name": "iview-form",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Configuration iview form",
   "author": "viewweiwu <648764190@qq.com>",
   "private": false,
@@ -23,9 +23,9 @@
     "ui"
   ],
   "dependencies": {
-    "element-ui": "^2.3.3",
+    "element-ui": "^2.3.7",
     "highlight.js": "^9.12.0",
-    "iview": "^2.11.0",
+    "iview": "^2.13.1",
     "vue": "^2.5.2",
     "vue-highlight.js": "^2.2.0"
   },

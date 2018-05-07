@@ -82,9 +82,11 @@ export default {
 | key | 可以监听 submit 事件，返回的 form 里面的 key 就是你定义的 key | String | '' |
 | defaultValue | item 的默认值 | - | - |
 | props | 组件库自带的参数,可以参考 iview 或者 element 组件库的文档 | Object | {} |
+| attrs | 组件库自带的参数,可以参考 iview 或者 element 组件库的文档 | Object | {} |
 | text | type 为 checkbox 或者 radio 时才有用，显示后面跟着的文字 | String | '' |
 | options | type 为 checkbox-group 或者 radio-group 时才有用，由 {value: 0, text: '苹果'} 组成，数据项支持异步 | Array | [] |
 | onInput | 监听参数改变事件 | Function | (value, item, form) |
+| render | 自定义整行 | Function | (h, item, form) |
 | renderTitle | 自定义标签 | Function | (h, item, form) |
 | renderContent | 自定义内容主题 | Function | (h, item, form) |
 | renderOption | type 为 select 时才有用，可以自定义 select 的 option | Function | (h, option, item) |
@@ -120,6 +122,11 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.0.7
+
+1. 修改 input 的 placeholder 需要添加在 attrs 里面
+2. 添加 formList 的 render 函数
+
 ### 1.0.6
 
 1. 修改 重置按钮 跟 提交按钮重复的问题

@@ -25,7 +25,7 @@ export default {
           type: 'input',
           key: 'username',
           rule: { required: true, message: '请输入用户名', trigger: 'blur' },
-          props: {
+          attrs: {
             placeholder: '请输入用户名'
           }
         },
@@ -35,7 +35,9 @@ export default {
           key: 'password',
           rule: { required: true, message: '请输入密码', trigger: 'blur' },
           props: {
-            type: 'password',
+            type: 'password'
+          },
+          attrs: {
             placeholder: '请输入密码'
           }
         }

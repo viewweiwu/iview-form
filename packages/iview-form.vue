@@ -325,14 +325,18 @@ export default {
       return content
     },
     getFormItem(h, item, content) {
-      return h(getPrefix('form-item', this.lib), {
-        props: {
-          prop: item.key
-        }
-      }, [
-        this.renderTitle(h, item),
-        content
-      ])
+      if (typeof item.render === 'function') {
+        return item.render(h, item)
+      } else {
+        return h(getPrefix('form-item', this.lib), {
+          props: {
+            prop: item.key
+          }
+        }, [
+          this.renderTitle(h, item),
+          content
+        ])
+      }
     },
     // 渲染 title
     renderTitle(h, item) {
@@ -383,7 +387,7 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'el-input',
+        tagName: getPrefix('input', this.lib),
         props: {
           clearable: true,
           ...(item.props || {})
@@ -459,7 +463,6 @@ export default {
         props: {
           clearable: true,
           type: item.type,
-          id: item.id || getRandomId(),
           ...(item.props || {})
         }
       }
@@ -474,7 +477,6 @@ export default {
         props: {
           clearable: true,
           type: item.type,
-          id: item.id || getRandomId(),
           ...(item.props || {})
         }
       }
@@ -533,6 +535,7 @@ export default {
           ...props,
           disabled: this.disabled || item.disabled
         },
+        attrs: item.attrs || {},
         style: {
           width: item.type === 'switch' ? null : (item.width || this['contentWidth']) + 'px'
         },
