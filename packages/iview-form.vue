@@ -38,10 +38,6 @@ const getPrefix = (tag, lib) => {
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
 }
 
-const getRandomId = () => {
-  return Math.random() * 10000000 + ''
-}
-
 export default {
   name: 'iview-form',
   props: {
@@ -434,6 +430,7 @@ export default {
         h,
         item,
         tagName: getPrefix('checkbox', this.lib),
+        props: item.props || {},
         children: item.text
       }
       return this.generateTag(tag)
@@ -444,6 +441,7 @@ export default {
         h,
         item,
         tagName: getPrefix('checkbox-group', this.lib),
+        props: item.props || {},
         children: item.options.map(option => {
           return h(getPrefix('checkbox', this.lib), {
             props: {
@@ -488,6 +486,7 @@ export default {
         h,
         item,
         tagName: getPrefix('radio', this.lib),
+        props: item.props || {},
         children: item.text
       }
       return this.generateTag(tag)
@@ -497,6 +496,7 @@ export default {
       let tag = {
         h,
         item,
+        props: item.props || {},
         tagName: getPrefix('radio-group', this.lib),
         children: item.options.map(option => {
           return h(getPrefix('radio', this.lib), {
@@ -514,7 +514,8 @@ export default {
       let tag = {
         h,
         item,
-        tagName: getPrefix('switch', this.lib)
+        tagName: getPrefix('switch', this.lib),
+        props: item.props || {}
       }
       return this.generateTag(tag)
     },
@@ -523,7 +524,8 @@ export default {
       let tag = {
         h,
         item,
-        tagName: getPrefix('slider', this.lib)
+        tagName: getPrefix('slider', this.lib),
+        props: item.props || {}
       }
       return this.generateTag(tag)
     },

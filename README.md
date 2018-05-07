@@ -122,6 +122,10 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.0.8
+
+1. 修改 tpye 为 switch 时 props 不生效
+
 ### 1.0.7
 
 1. 修改 input 的 placeholder 需要添加在 attrs 里面
