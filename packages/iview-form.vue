@@ -371,7 +371,7 @@ export default {
         let resetBtn = h(getPrefix('button', this.lib), {
           style,
           on: {
-            click: this.submit
+            click: this.reset
           }
         }, this.resetText)
         btns.push(resetBtn)

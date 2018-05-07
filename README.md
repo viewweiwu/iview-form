@@ -120,11 +120,16 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.0.6
+
+1. 修改 重置按钮 跟 提交按钮重复的问题
+
 ### 1.0.5
 
 1. 添加 options 自定义组建自带 props 属性
 2. 添加 hasSubmitBtn、hasResetBtn 自定义是否显示按钮属性
 3. 添加 submitText、resetText 自定义按钮文本属性
 4. 删除 autocomplete 属性
+
 
 [1]: https://viewweiwu.github.io/iview-form/examples/dist/
