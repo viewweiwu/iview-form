@@ -76,6 +76,10 @@ export default {
       type: String,
       default: 'iview'
     },
+    clearable: {
+      type: Boolean,
+      default: true
+    },
     'label-width': {
       type: Number,
       default: 100
@@ -313,14 +317,18 @@ export default {
           return
         }
       }
-      return h(getPrefix('form-item', this.lib), {
-        props: {
-          prop: item.key
-        }
-      }, [
-        this.renderTitle(h, item),
-        content
-      ])
+      if (typeof item.render === 'function') {
+        return item.render(h, item)
+      } else {
+        return h(getPrefix('form-item', this.lib), {
+          props: {
+            prop: item.key
+          }
+        }, [
+          this.renderTitle(h, item),
+          content
+        ])
+      }
     },
     // 渲染 title
     renderTitle(h, item) {
@@ -363,9 +371,9 @@ export default {
       let tag = {
         h,
         item,
-        tagName: 'el-input',
+        tagName: getPrefix('input', this.lib),
         props: {
-          clearable: true,
+          clearable: this.clearable,
           ...(item.props || {})
         },
         nativeOn: {
@@ -386,7 +394,7 @@ export default {
         item,
         tagName: getPrefix('select', this.lib),
         props: {
-          clearable: true,
+          clearable: this.clearable,
           ...(item.props || {})
         },
         children: item.options.map(option => {
@@ -410,6 +418,7 @@ export default {
         h,
         item,
         tagName: getPrefix('checkbox', this.lib),
+        props: item.props || {},
         children: item.text
       }
       return this.generateTag(tag)
@@ -420,6 +429,7 @@ export default {
         h,
         item,
         tagName: getPrefix('checkbox-group', this.lib),
+        props: item.props || {},
         children: item.options.map(option => {
           return h(getPrefix('checkbox', this.lib), {
             props: {
@@ -437,7 +447,7 @@ export default {
         item,
         tagName: getPrefix('date-picker', this.lib),
         props: {
-          clearable: true,
+          clearable: this.clearable,
           type: item.type,
           id: item.id || getRandomId(),
           ...(item.props || {})
@@ -452,7 +462,7 @@ export default {
         item,
         tagName: getPrefix('date-picker', this.lib),
         props: {
-          clearable: true,
+          clearable: this.clearable,
           type: item.type,
           id: item.id || getRandomId(),
           ...(item.props || {})
@@ -466,6 +476,7 @@ export default {
         h,
         item,
         tagName: getPrefix('radio', this.lib),
+        props: item.props || {},
         children: item.text
       }
       return this.generateTag(tag)
@@ -476,6 +487,7 @@ export default {
         h,
         item,
         tagName: getPrefix('radio-group', this.lib),
+        props: item.props || {},
         children: item.options.map(option => {
           return h(getPrefix('radio', this.lib), {
             props: {
@@ -492,7 +504,8 @@ export default {
       let tag = {
         h,
         item,
-        tagName: getPrefix('switch', this.lib)
+        tagName: getPrefix('switch', this.lib),
+        props: item.props || {}
       }
       return this.generateTag(tag)
     },
@@ -501,7 +514,8 @@ export default {
       let tag = {
         h,
         item,
-        tagName: getPrefix('slider', this.lib)
+        tagName: getPrefix('slider', this.lib),
+        props: item.props || {}
       }
       return this.generateTag(tag)
     },
@@ -513,6 +527,7 @@ export default {
           ...props,
           disabled: this.disabled || item.disabled
         },
+        attrs: item.attrs || {},
         style: {
           width: item.type === 'switch' ? null : (item.width || this['contentWidth']) + 'px'
         },

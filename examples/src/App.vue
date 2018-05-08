@@ -12,7 +12,7 @@
       <p slot="title">
         完整示例
       </p>
-      <iViewForm :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
+      <iViewForm :clearable="false" :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
       <span slot="code">
         {{demo1}}
       </span>
@@ -97,7 +97,7 @@
         :formList="showFormList">
       </iViewForm>
       <span slot="code">
-        {{demoRender}}
+        {{demoShow}}
       </span>
     </Pnl>
   </div>
@@ -111,6 +111,7 @@ import demo2 from './demo/demo2'
 import demo3 from './demo/demo3'
 import demoGrid from './demo/demoGrid'
 import demoRender from './demo/demoRender'
+import demoShow from './demo/demoShow'
 
 export default {
   name: 'App',
@@ -125,6 +126,7 @@ export default {
       demo3,
       demoGrid,
       demoRender,
+      demoShow,
       lib: 'iview',
       formList: [{
         title: '姓名',
@@ -138,9 +140,6 @@ export default {
         type: 'select',
         key: 'interest',
         defaultValue: [],
-        isShow: (form, item) => {
-          return form['name'] !== ''
-        },
         props: {
           multiple: true,
           placeholder: '请选择兴趣'
@@ -369,6 +368,22 @@ export default {
         isShow: (form, item) => form['a'] !== ''
       }, {
         render: (h) => h('h3', '第二种使用方式')
+      }, {
+        title: '第二种控制',
+        type: 'checkbox',
+        key: 'c',
+        text: '点我',
+        onInput: (value) => {
+          this.showFormList[4].isShow = value
+        }
+      }, {
+        title: '我显示啦！',
+        key: 'd',
+        type: 'input',
+        isShow: false,
+        props: {
+          placeholder: '被 checkbox 控制显示隐藏'
+        }
       }]
     }
   },

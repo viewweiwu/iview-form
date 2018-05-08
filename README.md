@@ -73,6 +73,7 @@ export default {
 | resetText | 重置按钮文本 | String | '重置' |
 | hasSubmitBtn | 是否显示提交按钮 | Boolean | true |
 | hasResetBtn | 是否显示重置按钮 | Boolean | true |
+| clearable | 控制是否显示清除 icon | Boolean | true |
 
 ## formList 参数
 | 参数 | 说明 | 类型 | 默认值 |
@@ -81,7 +82,7 @@ export default {
 | type | 不同的类型默认值不同，具体看下面 type 的种类 | String | '' |
 | key | 可以监听 submit 事件，返回的 form 里面的 key 就是你定义的 key | String | '' |
 | defaultValue | item 的默认值 | - | - |
-| isShow | isShow 为 false 会不显示这个元素 | Boolean,Function | - |
+| isShow | isShow 为 false 会不显示这个元素 | Boolean,Function | (form, item) |
 | props | 组件库自带的参数,可以参考 iview 或者 element 组件库的文档 | Object | {} |
 | attrs | 组件库自带的参数,可以参考 iview 或者 element 组件库的文档 | Object | {} |
 | text | type 为 checkbox 或者 radio 时才有用，显示后面跟着的文字 | String | '' |
