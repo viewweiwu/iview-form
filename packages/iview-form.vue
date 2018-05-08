@@ -38,6 +38,10 @@ const getPrefix = (tag, lib) => {
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
 }
 
+const getRandomId = () => {
+  return Math.random() * 10000000 + ''
+}
+
 export default {
   name: 'iview-form',
   props: {
@@ -55,6 +59,10 @@ export default {
     inline: {
       type: Boolean,
       default: false
+    },
+    autocomplete: {
+      type: String,
+      default: 'off'
     },
     enterSubmit: {
       type: Boolean,
@@ -75,26 +83,6 @@ export default {
     'content-width': {
       type: [Number, String],
       default: 240
-    },
-    submitText: {
-      type: String,
-      default: '提交'
-    },
-    resetText: {
-      type: String,
-      default: '重置'
-    },
-    hasSubmitBtn: {
-      type: Boolean,
-      default: true
-    },
-    hasResetBtn: {
-      type: Boolean,
-      default: true
-    },
-    options: {
-      type: Object,
-      default: () => { return {} }
     }
   },
   data() {
@@ -103,15 +91,13 @@ export default {
     }
   },
   render(h) {
-    let options = this.options || {}
-    let hasCtrl = !this.notCtrl && (this.hasResetBtn || this.hasSubmitBtn)
     return h(getPrefix('form', this.lib), {
       props: {
         model: this.form,
         rules: this.rules,
         inline: this.inline,
-        'label-width': this.lib === 'iview' ? this['labelWidth'] : this['labelWidth'] + 'px',
-        ...options
+        autocomplete: this.autocomplete,
+        'label-width': this.lib === 'iview' ? this['labelWidth'] : this['labelWidth'] + 'px'
       },
       ref: 'form',
       nativeOn: {
@@ -123,7 +109,7 @@ export default {
     }, [
       this.$slots.prepend,
       this.renderFormList(h),
-      hasCtrl && this.renderSubmit(h),
+      !this.notCtrl && this.renderSubmit(h),
       this.$slots.default
     ])
   },
@@ -321,18 +307,15 @@ export default {
       return content
     },
     getFormItem(h, item, content) {
-      if (typeof item.render === 'function') {
-        return item.render(h, item)
-      } else {
-        return h(getPrefix('form-item', this.lib), {
-          props: {
-            prop: item.key
-          }
-        }, [
-          this.renderTitle(h, item),
-          content
-        ])
-      }
+      if (item.isShow === false) return
+      return h(getPrefix('form-item', this.lib), {
+        props: {
+          prop: item.key
+        }
+      }, [
+        this.renderTitle(h, item),
+        content
+      ])
     },
     // 渲染 title
     renderTitle(h, item) {
@@ -351,39 +334,31 @@ export default {
     },
     // 渲染提交 按钮
     renderSubmit(h) {
-      let btns = []
-      if (this.hasSubmitBtn) {
-        let submitBtn = h(getPrefix('button', this.lib), {
+      return h(getPrefix('form-item', this.lib), [
+        h(getPrefix('button', this.lib), {
           props: {
             type: 'primary'
           },
           on: {
             click: this.submit
           }
-        }, this.submitText)
-        btns.push(submitBtn)
-      }
-      if (this.hasResetBtn) {
-        let style = {}
-        if (this.hasSubmitBtn) {
-          style['margin-left'] = '10px'
-        }
-        let resetBtn = h(getPrefix('button', this.lib), {
-          style,
+        }, '提交'),
+        h(getPrefix('button', this.lib), {
+          style: {
+            'margin-left': '10px'
+          },
           on: {
             click: this.reset
           }
-        }, this.resetText)
-        btns.push(resetBtn)
-      }
-      return h(getPrefix('form-item', this.lib), btns)
+        }, '重置')
+      ])
     },
     // 渲染 input
     renderInput(h, item) {
       let tag = {
         h,
         item,
-        tagName: getPrefix('input', this.lib),
+        tagName: 'el-input',
         props: {
           clearable: true,
           ...(item.props || {})
@@ -430,7 +405,6 @@ export default {
         h,
         item,
         tagName: getPrefix('checkbox', this.lib),
-        props: item.props || {},
         children: item.text
       }
       return this.generateTag(tag)
@@ -441,7 +415,6 @@ export default {
         h,
         item,
         tagName: getPrefix('checkbox-group', this.lib),
-        props: item.props || {},
         children: item.options.map(option => {
           return h(getPrefix('checkbox', this.lib), {
             props: {
@@ -461,6 +434,7 @@ export default {
         props: {
           clearable: true,
           type: item.type,
+          id: item.id || getRandomId(),
           ...(item.props || {})
         }
       }
@@ -475,6 +449,7 @@ export default {
         props: {
           clearable: true,
           type: item.type,
+          id: item.id || getRandomId(),
           ...(item.props || {})
         }
       }
@@ -486,7 +461,6 @@ export default {
         h,
         item,
         tagName: getPrefix('radio', this.lib),
-        props: item.props || {},
         children: item.text
       }
       return this.generateTag(tag)
@@ -496,7 +470,6 @@ export default {
       let tag = {
         h,
         item,
-        props: item.props || {},
         tagName: getPrefix('radio-group', this.lib),
         children: item.options.map(option => {
           return h(getPrefix('radio', this.lib), {
@@ -514,8 +487,7 @@ export default {
       let tag = {
         h,
         item,
-        tagName: getPrefix('switch', this.lib),
-        props: item.props || {}
+        tagName: getPrefix('switch', this.lib)
       }
       return this.generateTag(tag)
     },
@@ -524,8 +496,7 @@ export default {
       let tag = {
         h,
         item,
-        tagName: getPrefix('slider', this.lib),
-        props: item.props || {}
+        tagName: getPrefix('slider', this.lib)
       }
       return this.generateTag(tag)
     },
@@ -537,7 +508,6 @@ export default {
           ...props,
           disabled: this.disabled || item.disabled
         },
-        attrs: item.attrs || {},
         style: {
           width: item.type === 'switch' ? null : (item.width || this['contentWidth']) + 'px'
         },
