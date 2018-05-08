@@ -124,6 +124,15 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.0.10
+
+1. isShow 属性，可以使用方法了
+2. 添加 clearable 属性，默认为 true
+
+### 1.0.9
+
+1. 添加 isShow 属性
+
 ### 1.0.8
 
 1. 修改 tpye 为 switch 时 props 不生效
