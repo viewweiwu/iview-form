@@ -29,7 +29,6 @@
       <p>按 enter 会出发 submit 事件哦！</p>
       <p style="margin-bottom: 20px">设定了 rule 之后，submit 时会自动校验</p>
       <iViewForm
-        ref="loginForm"
         notCtrl
         enterSubmit
         @submit="onSubmit"
@@ -46,7 +45,6 @@
       <p slot="title">【grid】网格布局</p>
       <p class="ms">grid: 2</p>
       <iViewForm
-        ref="loginForm"
         enterSubmit
         @submit="onSubmit"
         :grid="2"
@@ -58,7 +56,6 @@
       <hr>
       <p class="ms">grid: [3, 1, 2]</p>
       <iViewForm
-        ref="loginForm"
         enterSubmit
         @submit="onSubmit"
         :grid="[3, 1, 2]"
@@ -70,7 +67,6 @@
       <hr>
       <p class="ms">grid: [[6, 12, 6], [12, 12], [24]]</p>
       <iViewForm
-        ref="loginForm"
         enterSubmit
         @submit="onSubmit"
         :grid="[[6, 12, 6], [12, 12], [24]]"
@@ -89,6 +85,16 @@
         ref="loginForm"
         @submit="onSubmit"
         :formList="customFormList">
+      </iViewForm>
+      <span slot="code">
+        {{demoRender}}
+      </span>
+    </Pnl>
+    <Pnl>
+      <p slot="title">【isShow】控制显示和隐藏</p>
+      <iViewForm
+        @submit="onSubmit"
+        :formList="showFormList">
       </iViewForm>
       <span slot="code">
         {{demoRender}}
@@ -124,7 +130,7 @@ export default {
         title: '姓名',
         type: 'input',
         key: 'name',
-        attrs: {
+        props: {
           placeholder: 'input 的 placeholder 需要写在 attrs 里面'
         }
       }, {
@@ -132,10 +138,11 @@ export default {
         type: 'select',
         key: 'interest',
         defaultValue: [],
-        props: {
-          multiple: true
+        isShow: (form, item) => {
+          return form['name'] !== ''
         },
-        attrs: {
+        props: {
+          multiple: true,
           placeholder: '请选择兴趣'
         },
         options: [{
@@ -155,7 +162,8 @@ export default {
         title: '零花钱',
         type: 'slider',
         defaultValue: 10,
-        key: 'slider'
+        key: 'slider',
+        isShow: false
       }, {
         title: '协议',
         type: 'checkbox',
@@ -214,9 +222,7 @@ export default {
         type: 'input',
         key: 'remark',
         props: {
-          type: 'textarea'
-        },
-        attrs: {
+          type: 'textarea',
           placeholder: '请输入备注'
         }
       }],
@@ -247,7 +253,7 @@ export default {
           type: 'input',
           key: 'username',
           rule: { required: true, message: '请输入用户名', trigger: 'blur' },
-          attrs: {
+          props: {
             placeholder: '请输入用户名'
           }
         },
@@ -257,9 +263,7 @@ export default {
           key: 'password',
           rule: { required: true, message: '请输入密码', trigger: 'blur' },
           props: {
-            type: 'password'
-          },
-          attrs: {
+            type: 'password',
             placeholder: '请输入密码'
           }
         }
@@ -294,7 +298,7 @@ export default {
           title: '你好哇',
           key: 'c1',
           type: 'input',
-          attrs: {
+          props: {
             placeholder: '你看 title 是蓝色的'
           },
           renderTitle: (h, item, form) => h('span', { style: 'color: #6cf' }, item.title)
@@ -346,11 +350,26 @@ export default {
           title: '',
           key: 'c5',
           type: 'input',
-          attrs: {
+          props: {
             placeholder: '你有可能不需要 title'
           }
         }
-      ]
+      ],
+      showFormList: [{
+        title: '试着输入',
+        type: 'input',
+        key: 'a',
+        props: {
+          placeholder: '输入东西，会显示第二个表单元素'
+        }
+      }, {
+        title: '哈哈，我出现了',
+        type: 'input',
+        key: 'b',
+        isShow: (form, item) => form['a'] !== ''
+      }, {
+        render: (h) => h('h3', '第二种使用方式')
+      }]
     }
   },
   watch: {

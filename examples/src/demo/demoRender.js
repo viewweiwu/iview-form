@@ -21,7 +21,7 @@ export default {
           title: '你好哇',
           key: 'c1',
           type: 'input',
-          attrs: {
+          props: {
             placeholder: '你看 title 是蓝色的'
           },
           renderTitle: (h, item, form) => h('span', { style: 'color: #6cf' }, item.title)
@@ -73,7 +73,7 @@ export default {
           title: '',
           key: 'c5',
           type: 'input',
-          attrs: {
+          props: {
             placeholder: '你有可能不需要 title'
           }
         }

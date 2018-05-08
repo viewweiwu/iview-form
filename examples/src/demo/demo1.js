@@ -15,8 +15,8 @@ export default {
         title: '姓名',
         type: 'input',
         key: 'name',
-        attrs: {
-          placeholder: 'input 的 placeholder 需要写在 attrs 里面'
+        props: {
+          placeholder: 'element 的 input 的 placeholder 需要写在 attrs 里面'
         }
       }, {
         title: '特长',
@@ -24,9 +24,7 @@ export default {
         key: 'interest',
         defaultValue: [],
         props: {
-          multiple: true
-        },
-        attrs: {
+          multiple: true,
           placeholder: '请选择兴趣'
         },
         options: [{
@@ -105,9 +103,7 @@ export default {
         type: 'input',
         key: 'remark',
         props: {
-          type: 'textarea'
-        },
-        attrs: {
+          type: 'textarea',
           placeholder: '请输入备注'
         }
       }]

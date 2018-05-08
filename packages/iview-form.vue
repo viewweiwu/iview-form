@@ -308,6 +308,11 @@ export default {
     },
     getFormItem(h, item, content) {
       if (item.isShow === false) return
+      else if (typeof item.isShow === 'function') {
+        if (item.isShow(this.form, item) === false) {
+          return
+        }
+      }
       return h(getPrefix('form-item', this.lib), {
         props: {
           prop: item.key
