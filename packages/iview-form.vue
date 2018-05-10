@@ -56,19 +56,7 @@ export default {
       type: Boolean,
       default: false
     },
-    inline: {
-      type: Boolean,
-      default: false
-    },
-    autocomplete: {
-      type: String,
-      default: 'off'
-    },
     enterSubmit: {
-      type: Boolean,
-      default: false
-    },
-    disabled: {
       type: Boolean,
       default: false
     },
@@ -76,9 +64,9 @@ export default {
       type: String,
       default: 'iview'
     },
-    clearable: {
+    disabled: {
       type: Boolean,
-      default: true
+      default: false
     },
     'label-width': {
       type: Number,
@@ -87,6 +75,29 @@ export default {
     'content-width': {
       type: [Number, String],
       default: 240
+    },
+    submitText: {
+      type: String,
+      default: '提交'
+    },
+    resetText: {
+      type: String,
+      default: '重置'
+    },
+    hasSubmitBtn: {
+      type: Boolean,
+      default: true
+    },
+    hasResetBtn: {
+      type: Boolean,
+      default: true
+    },
+    options: {
+      type: Object
+    },
+    clearable: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -99,9 +110,8 @@ export default {
       props: {
         model: this.form,
         rules: this.rules,
-        inline: this.inline,
-        autocomplete: this.autocomplete,
-        'label-width': this.lib === 'iview' ? this['labelWidth'] : this['labelWidth'] + 'px'
+        'label-width': this.lib === 'iview' ? this['labelWidth'] : this['labelWidth'] + 'px',
+        ...this.options
       },
       ref: 'form',
       nativeOn: {
@@ -347,24 +357,29 @@ export default {
     },
     // 渲染提交 按钮
     renderSubmit(h) {
-      return h(getPrefix('form-item', this.lib), [
-        h(getPrefix('button', this.lib), {
+      let btns = []
+      if (this.hasSubmitBtn) {
+        btns.push(h(getPrefix('button', this.lib), {
           props: {
             type: 'primary'
           },
           on: {
             click: this.submit
           }
-        }, '提交'),
-        h(getPrefix('button', this.lib), {
+        }, this.submitText))
+      }
+      if (this.hasResetBtn) {
+        btns.push(h(getPrefix('button', this.lib), {
           style: {
             'margin-left': '10px'
           },
           on: {
             click: this.reset
           }
-        }, '重置')
-      ])
+        }, this.resetText))
+      }
+
+      return h(getPrefix('form-item', this.lib), btns)
     },
     // 渲染 input
     renderInput(h, item) {

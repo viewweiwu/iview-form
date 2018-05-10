@@ -12,7 +12,7 @@
       <p slot="title">
         完整示例
       </p>
-      <iViewForm :clearable="false" :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
+      <iViewForm :notCtrl="false" :clearable="false" :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
       <span slot="code">
         {{demo1}}
       </span>
@@ -161,8 +161,7 @@ export default {
         title: '零花钱',
         type: 'slider',
         defaultValue: 10,
-        key: 'slider',
-        isShow: false
+        key: 'slider'
       }, {
         title: '协议',
         type: 'checkbox',

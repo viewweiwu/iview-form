@@ -13,7 +13,7 @@
 $ npm install iview-form
 ```
 
-## 使用方法
+## 快速开始
 
 ``` html
 <template>
@@ -62,7 +62,6 @@ export default {
 | grid | 网格，更多请看 demo | Number, Array | - |
 | formList | 配置项（看下面 formList 参数） | Array | [] |
 | notCtrl | 是否不显示 提交、重置 按钮 | Boolean | false |
-| inline | 是否显示成一行 | Boolean | false |
 | enterSubmit | 如果设定这个值为 true，那么 input 按 enter 键会触发 submit 事件 | Boolean | false |
 | lib | 可选值（'iview', 'element'），如果指定为 element 那么组件会按照 element 来渲染 | String | 'iview' |
 | disabled | 如果设定这个值为 true，那么该表单下所有的表单元素都会被禁用 | Boolean | false |
@@ -124,6 +123,10 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.0.11
+
+1. 修复 options、submitText、resetText、hasSubmitBtn、hasResetBtn 失效的原因
+
 ### 1.0.10
 
 1. isShow 属性，可以使用方法了
