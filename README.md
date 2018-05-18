@@ -13,6 +13,12 @@
 $ npm install iview-form
 ```
 
+### script
+
+```html
+<script src="//cdn.jsdelivr.net/npm/iview-form@1.0.12/lib/iview-form.js"></script>
+```
+
 ## 快速开始
 
 ``` html
@@ -46,14 +52,23 @@ export default {
 }
 </script>
 ```
+
 标签大小写随你心情
+
 ``` html
 <iview-form @submit="onSubmit" :formList="formList"></iview-form>
 ```
+
 使用 element-ui 组件库
+
 ``` html
 <iview-form lib="element" @submit="onSubmit" :formList="formList"></iview-form>
 ```
+
+## 注意
+    如果你是 script 标签引入的，那么所有的参数要用小写，并且单词用 - 链接。
+    iViewForm => iview-form
+    formList => form-list
 
 ## iview-form 参数
 
@@ -123,6 +138,10 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.0.12
+
+1. 可以在网页里面用 script 标签引入啦！
+
 ### 1.0.11
 
 1. 修复 options、submitText、resetText、hasSubmitBtn、hasResetBtn 失效的原因

@@ -3,413 +3,63 @@
     <div class="app-header">
       <span class="title">iView-form</span>
       <span>
-        <i-button type="error" v-if="lib === 'iview'" @click="lib = 'element'">切换到 element-ui 版本</i-button>
-        <i-button type="primary" v-if="lib === 'element'" @click="lib = 'iview'">切换到 iview 版本</i-button>
         <i-button class="ms" @click="jumpPage('https://github.com/viewweiwu/iview-form')" icon="social-github">github</i-button>
       </span>
     </div>
-    <Pnl>
-      <p slot="title">
-        完整示例
-      </p>
-      <iViewForm :notCtrl="false" :clearable="false" :lib="lib" @submit="onSubmit" :formList="formList"></iViewForm>
-      <span slot="code">
-        {{demo1}}
-      </span>
-    </Pnl>
-    <Pnl>
-      <p slot="title">日期示例</p>
-      <iViewForm :lib="lib" @submit="onSubmit" :formList="dateFormList"></iViewForm>
-      <span slot="code">
-        {{demo2}}
-      </span>
-    </Pnl>
-    <Pnl>
-      <p slot="title">登陆示例</p>
-      <p>按 enter 会出发 submit 事件哦！</p>
-      <p style="margin-bottom: 20px">设定了 rule 之后，submit 时会自动校验</p>
-      <iViewForm
-        notCtrl
-        enterSubmit
-        @submit="onSubmit"
-        :lib="lib"
-        :label-width="80"
-        :formList="loginFormList">
-        <i-button @click="login" style="width: 320px" type="primary" long>登陆</i-button>
-      </iViewForm>
-      <span slot="code">
-        {{demo3}}
-      </span>
-    </Pnl>
-    <Pnl>
-      <p slot="title">【grid】网格布局</p>
-      <p class="ms">grid: 2</p>
-      <iViewForm
-        enterSubmit
-        @submit="onSubmit"
-        :grid="2"
-        :lib="lib"
-        :label-width="40"
-        contentWidth="auto"
-        :formList="rowFormList">
-      </iViewForm>
-      <hr>
-      <p class="ms">grid: [3, 1, 2]</p>
-      <iViewForm
-        enterSubmit
-        @submit="onSubmit"
-        :grid="[3, 1, 2]"
-        :lib="lib"
-        :label-width="40"
-        contentWidth="auto"
-        :formList="rowFormList">
-      </iViewForm>
-      <hr>
-      <p class="ms">grid: [[6, 12, 6], [12, 12], [24]]</p>
-      <iViewForm
-        enterSubmit
-        @submit="onSubmit"
-        :grid="[[6, 12, 6], [12, 12], [24]]"
-        :lib="lib"
-        :label-width="40"
-        contentWidth="auto"
-        :formList="rowFormList">
-      </iViewForm>
-      <span slot="code">
-        {{demoGrid}}
-      </span>
-    </Pnl>
-    <Pnl>
-      <p slot="title">【render】自定义 render</p>
-      <iViewForm
-        ref="loginForm"
-        @submit="onSubmit"
-        :formList="customFormList">
-      </iViewForm>
-      <span slot="code">
-        {{demoRender}}
-      </span>
-    </Pnl>
-    <Pnl>
-      <p slot="title">【isShow】控制显示和隐藏</p>
-      <iViewForm
-        @submit="onSubmit"
-        :formList="showFormList">
-      </iViewForm>
-      <span slot="code">
-        {{demoShow}}
-      </span>
-    </Pnl>
+    <h2>普通示例</h2>
+    <iframe height='500' scrolling='no' title='iview-form demo' src='//codepen.io/viewweiwu/embed/preview/GdwGPE/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/GdwGPE/'>iview-form_demo1</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
+    </iframe>
+    <h2>日期示例</h2>
+    <iframe height='500' scrolling='no' title='iview-form date' src='//codepen.io/viewweiwu/embed/preview/qYQKGZ/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/qYQKGZ/'>iview-form demo1</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
+    </iframe>
+    <h2>登陆示例</h2>
+    <div class="info">
+      <p>如果你设置了 enterSubmit, 那么按 enter 会出发 submit 事件哦!</p>
+      <p>设定了 rule 之后，submit 时会触发校验，并且得到的第二个参数就是触发的结果。</p>
+    </div>
+    <iframe height='500' scrolling='no' title='iview-form login' src='//codepen.io/viewweiwu/embed/preview/QrJBLJ/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/QrJBLJ/'>iview-form login</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
+    </iframe>
+    <h2>【grid】网格布局</h2>
+    <div class="info">
+      <p>gird 支持三种类型的值</p>
+      <p>下面会逐个解释</p>
+    </div>
+    <div class="info">
+      <p>1、【Number】表示每行会有几个表单元素</p>
+      <p>例如：:grid="2" 表示每行有两个元素，每个占 50% 宽度。</p>
+      <p>例如：:grid="3" 表示每行有三个元素，每个占 33.33% 宽度。</p>
+    </div>
+    <div class="info">
+      <p>2、【Array】每个数字表示这一行有几个表单元素</p>
+      <p>例如：:grid="[3, 1, 2]" 表示第一行会有 3 个，第二行有 1 个，第三行有 2 个。</p>
+      <p>例如：:grid="[2, 2, 2]" 表示每一行都是 2 个，跟设置成 Number 没区别。</p>
+      <p>注意：如果你有 7 个表单元素，但是你的数组总和只有 4 ，那么剩下的 3 个表单元素将会被忽略（不显示）。</p>
+    </div>
+    <div class="info">
+      <p>3、【二维Array】每个数组的每个数字表示这一行占比, 且每一行的总和是 24 </p>
+      <p>例如：:grid="[[6, 12, 6], [12, 12], [24]]" 取第一个数组 [6, 12, 6] 做解释，意思是所占宽度是 6/24, 12/24, 6/24。</p>
+      <p>iView 和 element-ui 组件库都用 gird 布局的，这里的 24 格栅格布局，就是组件库栅格布局。</p>
+    </div>
+    <iframe height='500' scrolling='no' title='iview-form grid' src='//codepen.io/viewweiwu/embed/preview/NMEzZB/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/NMEzZB/'>iview-form date</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
+    </iframe>
+    <h2>【render】自定义 render</h2>
+    <iframe height='500' scrolling='no' title='iview-form render' src='//codepen.io/viewweiwu/embed/preview/MGzBKM/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/MGzBKM/'>iview-form render</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
+    </iframe>
+    <h2>【isShow】控制显示和隐藏</h2>
+    <iframe height='500' scrolling='no' title='iview-form isShow' src='//codepen.io/viewweiwu/embed/preview/erQjzY/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/erQjzY/'>iview-form isShow</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
+    </iframe>
   </div>
 </template>
 
 <script>
 import iViewForm from '@/index.js'
-import Pnl from './Pnl'
-import demo1 from './demo/demo1'
-import demo2 from './demo/demo2'
-import demo3 from './demo/demo3'
-import demoGrid from './demo/demoGrid'
-import demoRender from './demo/demoRender'
-import demoShow from './demo/demoShow'
 
 export default {
   name: 'App',
   components: {
-    iViewForm,
-    Pnl
-  },
-  data() {
-    return {
-      demo1,
-      demo2,
-      demo3,
-      demoGrid,
-      demoRender,
-      demoShow,
-      lib: 'iview',
-      formList: [{
-        title: '姓名',
-        type: 'input',
-        key: 'name',
-        props: {
-          placeholder: 'input 的 placeholder 需要写在 attrs 里面'
-        }
-      }, {
-        title: '特长',
-        type: 'select',
-        key: 'interest',
-        defaultValue: [],
-        props: {
-          multiple: true,
-          placeholder: '请选择兴趣'
-        },
-        options: [{
-          value: 0,
-          text: '上班'
-        }, {
-          value: 1,
-          text: '吃饭'
-        }, {
-          value: 2,
-          text: '睡觉'
-        }, {
-          value: 3,
-          text: '偷懒'
-        }]
-      }, {
-        title: '零花钱',
-        type: 'slider',
-        defaultValue: 10,
-        key: 'slider'
-      }, {
-        title: '协议',
-        type: 'checkbox',
-        text: '我同意'
-      }, {
-        title: '喜欢的食物',
-        type: 'checkbox-group',
-        key: 'foods',
-        width: 'auto',
-        options: [{
-          value: 0,
-          text: '草莓'
-        }, {
-          value: 1,
-          text: '酸奶'
-        }, {
-          value: 2,
-          text: '面包'
-        }, {
-          value: 3,
-          text: '鸡蛋'
-        }]
-      }, {
-        title: '生日',
-        type: 'date',
-        key: 'birthday'
-      }, {
-        title: 'radio',
-        type: 'radio',
-        key: 'radio'
-      }, {
-        title: '不存在的食物',
-        type: 'radio-group',
-        key: 'radio-group',
-        defaultValue: 0,
-        width: 'auto',
-        options: [{
-          value: 0,
-          text: '冬瓜'
-        }, {
-          value: 1,
-          text: '西瓜'
-        }, {
-          value: 2,
-          text: '南瓜'
-        }, {
-          value: 3,
-          text: '北瓜'
-        }]
-      }, {
-        title: '开关',
-        type: 'switch',
-        key: 'switch'
-      }, {
-        title: '备注',
-        type: 'input',
-        key: 'remark',
-        props: {
-          type: 'textarea',
-          placeholder: '请输入备注'
-        }
-      }],
-      dateFormList: [{
-        title: 'date',
-        type: 'date',
-        key: 'birthday'
-      }, {
-        title: 'datetime',
-        type: 'datetime',
-        key: 'datetime'
-      }, {
-        title: 'daterange',
-        type: 'daterange',
-        key: 'daterange'
-      }, {
-        title: 'datetimerange',
-        type: 'datetimerange',
-        key: 'datetimerange',
-        props: {
-          'start-placeholder': '开始日期',
-          'end-placeholder': '结束日期'
-        }
-      }],
-      loginFormList: [
-        {
-          title: '用户名',
-          type: 'input',
-          key: 'username',
-          rule: { required: true, message: '请输入用户名', trigger: 'blur' },
-          props: {
-            placeholder: '请输入用户名'
-          }
-        },
-        {
-          title: '密码',
-          type: 'input',
-          key: 'password',
-          rule: { required: true, message: '请输入密码', trigger: 'blur' },
-          props: {
-            type: 'password',
-            placeholder: '请输入密码'
-          }
-        }
-      ],
-      rowFormList: [{
-        title: 'a',
-        type: 'input',
-        key: 'a'
-      }, {
-        title: 'b',
-        type: 'input',
-        key: 'b'
-      }, {
-        title: 'c',
-        type: 'input',
-        key: 'c'
-      }, {
-        title: 'd',
-        type: 'slider',
-        key: 'd'
-      }, {
-        title: 'e',
-        type: 'slider',
-        key: 'e'
-      }, {
-        title: 'f',
-        type: 'input',
-        key: 'f'
-      }],
-      customFormList: [
-        {
-          title: '你好哇',
-          key: 'c1',
-          type: 'input',
-          props: {
-            placeholder: '你看 title 是蓝色的'
-          },
-          renderTitle: (h, item, form) => h('span', { style: 'color: #6cf' }, item.title)
-        },
-        {
-          title: '你好哇',
-          key: 'c2',
-          renderContent: (h, item, form) => {
-            let $input = h('i-input', {
-              props: {
-                value: form['custom']
-              },
-              style: {
-                width: '240px'
-              },
-              on: {
-                input: (value) => {
-                  form['custom'] = value
-                }
-              }
-            })
-            return h('div', [
-              $input,
-              h('p', {
-                style: {
-                  color: '#999'
-                }
-              }, '这里是自定义 content')
-            ])
-          }
-        }, {
-          render: (h, item, form) => {
-            return h('h2', '我猜你可能需要整个自定义')
-          }
-        }, {
-          title: '组合',
-          key: 'c4',
-          renderTitle: (h) => {
-            return h('checkbox', '组合')
-          },
-          renderContent: (h, item, form) => {
-            return h('rate', {
-              props: {
-                value: 3
-              }
-            })
-          }
-        }, {
-          title: '',
-          key: 'c5',
-          type: 'input',
-          props: {
-            placeholder: '你有可能不需要 title'
-          }
-        }
-      ],
-      showFormList: [{
-        title: '试着输入',
-        type: 'input',
-        key: 'a',
-        props: {
-          placeholder: '输入东西，会显示第二个表单元素'
-        }
-      }, {
-        title: '哈哈，我出现了',
-        type: 'input',
-        key: 'b',
-        isShow: (form, item) => form['a'] !== ''
-      }, {
-        render: (h) => h('h3', '第二种使用方式')
-      }, {
-        title: '第二种控制',
-        type: 'checkbox',
-        key: 'c',
-        text: '点我',
-        onInput: (value) => {
-          this.showFormList[4].isShow = value
-        }
-      }, {
-        title: '我显示啦！',
-        key: 'd',
-        type: 'input',
-        isShow: false,
-        props: {
-          placeholder: '被 checkbox 控制显示隐藏'
-        }
-      }]
-    }
-  },
-  watch: {
-    lib() {
-      this.$Notice.info({
-        title: '提醒',
-        desc: '如果看到 placeholder 消失了，不要感觉奇怪，实际项目中，你不会有两种组件库来回切换这样的场景的'
-      })
-    }
+    iViewForm
   },
   methods: {
-    onSubmit(form, valid) {
-      if (valid) {
-        this.$Notice.info({
-          title: '你得到的值',
-          desc: '请在 console 里面看你得到的值'
-        })
-        console.log(form, valid)
-      } else {
-        console.log(form, valid)
-        this.$Message.error('验证失败')
-      }
-    },
-    login() {
-      this.$refs['loginForm'].submit()
-    },
     jumpPage(target) {
       window.open(target)
     }
@@ -419,8 +69,13 @@ export default {
 
 <style lang="less">
   body {
-    padding: 100px 50px 50px;
+    padding: 70px 50px 50px;
     background-color: #fafafa;
+  }
+  h2 {
+    margin: 20px 0;
+    padding-left: 10px;
+    border-left: 3px solid #f60;
   }
   .app-header {
     top: 0;
@@ -442,10 +97,12 @@ export default {
         1px 1px 2px #000;
     }
   }
-  .el-checkbox + .el-checkbox,
-  .el-radio + .el-radio {
-    margin-left: 10px;
-    margin-right: 10px;
+  .info {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    background-color: #fff;
   }
   .ms {
     margin: 10px;

@@ -1,7 +1,12 @@
 
 body {
-  padding: 100px 50px 50px;
+  padding: 70px 50px 50px;
   background-color: #fafafa;
+}
+h2 {
+  margin: 20px 0;
+  padding-left: 10px;
+  border-left: 3px solid #f60;
 }
 .app-header {
   top: 0;
@@ -30,49 +35,13 @@ body {
   text-shadow: 1px 1px 2px #fff,
       1px 1px 2px #000;
 }
-.el-checkbox + .el-checkbox,
-.el-radio + .el-radio {
-  margin-left: 10px;
-  margin-right: 10px;
+.info {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  font-size: 18px;
+  background-color: #fff;
 }
 .ms {
   margin: 10px;
-}
-
-.pnl {
-  height: 500px;
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-}
-.pnl.full {
-  height: auto;
-}
-.pnl-title {
-  margin-bottom: 20px;
-  font-size: 30px;
-}
-.content,
-.code {
-  width: 50%;
-  overflow: auto;
-  font-size: 16px;
-}
-.pnl-content {
-  width: 100%;
-  height: calc(100% - 40px);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  overflow: hidden;
-}
-.content {
-  padding: 10px;
-}
-.code {
-  margin-left: 20px;
-}
-.mt {
-  margin-top: 10px;
 }

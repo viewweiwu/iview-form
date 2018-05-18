@@ -38,10 +38,6 @@ const getPrefix = (tag, lib) => {
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
 }
 
-const getRandomId = () => {
-  return Math.random() * 10000000 + ''
-}
-
 export default {
   name: 'iview-form',
   props: {
@@ -464,7 +460,6 @@ export default {
         props: {
           clearable: this.clearable,
           type: item.type,
-          id: item.id || getRandomId(),
           ...(item.props || {})
         }
       }
@@ -479,7 +474,6 @@ export default {
         props: {
           clearable: this.clearable,
           type: item.type,
-          id: item.id || getRandomId(),
           ...(item.props || {})
         }
       }
