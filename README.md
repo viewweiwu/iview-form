@@ -147,7 +147,7 @@ export default {
 1. 添加 type: input-number 类型
 2. 添加 maxlength 和 textareaMaxlength 属性，分别作用于 input 和 textarea 上，默认值分别是 20 、256
 3. 添加 setForm 方法
-4. 修改 dateitemrange 的默认宽度为 360
+4. 修改 datetimerange 的默认宽度为 360
 5. 修改 textarea 如果设置了 enterSubmit，不再触发 submit 事件 
 6. 修改 element-ui 的 placeholder 现在可以写在 props 里 
 
