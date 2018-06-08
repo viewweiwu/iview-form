@@ -150,10 +150,6 @@ export default {
 4. 修改 dateitemrange 的默认宽度为 360
 5. 修改 textarea 如果设置了 enterSubmit，不再触发 submit 事件 
 
-## LICENSE
-MIT
-
-
 ### 1.0.12
 
 1. 可以在网页里面用 script 标签引入啦！
@@ -190,6 +186,9 @@ MIT
 2. 添加 hasSubmitBtn、hasResetBtn 自定义是否显示按钮属性
 3. 添加 submitText、resetText 自定义按钮文本属性
 4. 删除 autocomplete 属性
+
+## LICENSE
+MIT
 
 
 [1]: https://viewweiwu.github.io/iview-form/examples/dist/
