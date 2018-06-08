@@ -149,6 +149,7 @@ export default {
 3. 添加 setForm 方法
 4. 修改 dateitemrange 的默认宽度为 360
 5. 修改 textarea 如果设置了 enterSubmit，不再触发 submit 事件 
+6. 修改 element-ui 的 placeholder 现在可以写在 props 里 
 
 ### 1.0.12
 
