@@ -15,7 +15,8 @@ const getPrefix = (tag, lib) => {
     'slider': 'slider',
     'button': 'i-button',
     'row': 'row',
-    'col': 'i-col'
+    'col': 'i-col',
+    'input-number': 'input-number'
   }
   let elementMap = {
     'form': 'el-form',
@@ -32,7 +33,8 @@ const getPrefix = (tag, lib) => {
     'slider': 'el-slider',
     'button': 'el-button',
     'row': 'el-row',
-    'col': 'el-col'
+    'col': 'el-col',
+    'input-number': 'el-input-number'
   }
 
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
@@ -41,59 +43,83 @@ const getPrefix = (tag, lib) => {
 export default {
   name: 'iview-form',
   props: {
+    // 是否启用 grid 布局
     grid: {
       type: [Array, Number]
     },
+    // formItem 项
     formList: {
       type: Array,
       default: () => []
     },
+    // 是否显示整个控制按钮
     notCtrl: {
       type: Boolean,
       default: false
     },
+    // 是否开启 input 标签默认
     enterSubmit: {
       type: Boolean,
       default: false
     },
+    // 默认 ui 库
     lib: {
       type: String,
       default: 'iview'
     },
+    // 是否全局 disabled
     disabled: {
       type: Boolean,
       default: false
     },
+    // 默认标签宽度
     'label-width': {
       type: Number,
       default: 100
     },
+    // 默认内容宽度
     'content-width': {
       type: [Number, String],
       default: 240
     },
+    // submit 按钮文本
     submitText: {
       type: String,
       default: '提交'
     },
+    // 重置按钮文本
     resetText: {
       type: String,
       default: '重置'
     },
+    // 是否拥有 提交 按钮
     hasSubmitBtn: {
       type: Boolean,
       default: true
     },
+    // 是否拥有 重置 按钮
     hasResetBtn: {
       type: Boolean,
       default: true
     },
+    // 原生 form 标签上的 props
     options: {
       type: Object
     },
+    // 开启全局 clearable
     clearable: {
       type: Boolean,
       default: true
+    },
+    // 文本框默认字符个数
+    maxlength: {
+      type: [Number, String],
+      default: 20
+    },
+    // 多行文本框默认字符个数
+    textareaMaxlength: {
+      type: Number,
+      default: 256
     }
   },
   data() {
@@ -152,7 +178,8 @@ export default {
         'radio': false,
         'radio-group': '',
         'slider': 0,
-        'switch': false
+        'switch': false,
+        'input-number': 0
       }
       this.formList.forEach(item => {
         let defaultValue = ''
@@ -306,7 +333,8 @@ export default {
         case 'slider':
           content = this.renderSlider(h, item)
           break
-        case 'row':
+        case 'input-number':
+          content = this.renderInputNumber(h, item)
           break
         default:
           if (typeof item.renderContent === 'function') {
@@ -379,24 +407,40 @@ export default {
     },
     // 渲染 input
     renderInput(h, item) {
+      let props = item.props || {}
+      let attrs = item.attrs || {}
+      // 让 element-ui 在 props 里也可以设置 placeholder
+      if (props.placeholder) {
+        attrs.placeholder = props.placeholder
+      }
+
+      // 让 element-ui 在 props 里也可以设置 maxlength
+      if (props.type !== 'textarea') {
+        attrs.maxlength = props.maxlength || this.maxlength
+      } else {
+        // textarea 长度
+        attrs.maxlength = props.maxlength || this.textareaMaxlength
+      }
+
+      item.attrs = attrs
+
       let tag = {
         h,
         item,
         tagName: getPrefix('input', this.lib),
         props: {
           clearable: this.clearable,
-          ...(item.props || {})
+          ...props
         },
         nativeOn: {
           keydown: (e) => {
-            if (e.keyCode === 13 && this.enterSubmit) {
+            if (e.keyCode === 13 && this.enterSubmit && props.type !== 'textarea') {
               this.submit()
             }
           }
         }
       }
       return this.generateTag(tag)
-      // return h(getPrefix('input'))
     },
     // 渲染 select
     renderSelect(h, item) {
@@ -467,6 +511,10 @@ export default {
     },
     // 渲染范围的 daterange
     renderDateRange(h, item) {
+      // 处理 datetimerange 可能宽度不够的问题
+      if (item.type === 'datetimerange') {
+        item.width = item.width || 360
+      }
       let tag = {
         h,
         item,
@@ -528,11 +576,24 @@ export default {
       }
       return this.generateTag(tag)
     },
+    // 渲染 slider
+    renderInputNumber(h, item) {
+      item.width = item.width || 150
+      let tag = {
+        h,
+        item,
+        tagName: getPrefix('input-number', this.lib),
+        props: item.props || {}
+      }
+      return this.generateTag(tag)
+    },
     // 生产 tag
     generateTag({h, item, tagName, props, children, on = {}, nativeOn = {}}) {
       return h(tagName, {
         props: {
           value: this.form[item.key],
+          min: 0,
+          max: 9999999,
           ...props,
           disabled: this.disabled || item.disabled
         },
@@ -593,6 +654,12 @@ export default {
     getForm() {
       return {
         ...this.form
+      }
+    },
+    // 设值
+    setForm(form) {
+      for (let key in form) {
+        this.form[key] = form[key]
       }
     }
   }

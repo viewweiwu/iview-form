@@ -1,6 +1,6 @@
 # iview-form
 
-> 让 iview 的 form 使用起来更加简单。
+> 让 iview 和 element-ui 的 form 使用起来更加简单。
 
 ## 例子
 [demo][1]
@@ -88,6 +88,8 @@ export default {
 | hasSubmitBtn | 是否显示提交按钮 | Boolean | true |
 | hasResetBtn | 是否显示重置按钮 | Boolean | true |
 | clearable | 控制是否显示清除 icon | Boolean | true |
+| maxlength | 默认全局 input 的 maxlength | Boolean | 20 |
+| textareaMaxlength | 默认全局 textarea 的 maxlength | Boolean | 256 |
 
 ## formList 参数
 | 参数 | 说明 | 类型 | 默认值 |
@@ -109,27 +111,29 @@ export default {
 
 
 ## type 种类
-| 类型 | 默认值 |
-| - | - |
-| input | '' |
-| select | null |
-| checkbox | false |
-| checkbox-group | [] |
-| radio | false |
-| radio-group | [] |
-| date | 当前时间，new Date() |
-| datetime | 当前时间，new Date() |
-| daterange | ['', ''] |
-| datetimerange | ['', ''] |
-| switch | false |
-| slider | 0 |
+| 类型 | 默认值 | 其它 |
+| - | - | - |
+| input | '' | 默认 maxlength: 20, textarea: 256 |
+| input-number | 0 | 默认 min: 0, max: 9999999 |
+| select | null | |
+| checkbox | false | |
+| checkbox-group | [] | |
+| radio | false | 没有意义，不建议使用 |
+| radio-group | [] | |
+| date | 当前时间，new Date() | |
+| datetime | 当前时间，new Date() | |
+| daterange | ['', ''] | |
+| datetimerange | ['', ''] | |
+| switch | false | |
+| slider | 0 | |
 
 ## 内置方法
 | 名称 | 说明 | 返回类型 | 返回值 |
 | - | - | - | - |
 | reset | 还原表单 | - | - |
 | getFormBykey | 根据 key 来获取这个 key 在 form 的值 | - | 打印出来你就知道了 |
-| getForm | 获取整个 form 的值 | - | 打印出来你就知道了 |
+| getForm | 获取 form 的值 | - | 打印出来你就知道了 |
+| setForm | 设置 form 的值，传入 key: value 格式的对象，例如 setForm({ key1: 'xxxx' }) | - | - |
 | submit | 手动触发 submit 事件 | - | - |
 
 ## 事件
@@ -138,6 +142,18 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.1.0
+
+1. 添加 type: input-number 类型
+2. 添加 maxlength 和 textareaMaxlength 属性，分别作用于 input 和 textarea 上，默认值分别是 20 、256
+3. 添加 setForm 方法
+4. 修改 dateitemrange 的默认宽度为 360
+5. 修改 textarea 如果设置了 enterSubmit，不再触发 submit 事件 
+
+## LICENSE
+MIT
+
+
 ### 1.0.12
 
 1. 可以在网页里面用 script 标签引入啦！

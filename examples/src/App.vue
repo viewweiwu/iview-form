@@ -6,6 +6,9 @@
         <i-button class="ms" @click="jumpPage('https://github.com/viewweiwu/iview-form')" icon="social-github">github</i-button>
       </span>
     </div>
+    <!-- 测试区域 -->
+    <!-- <el-button @click="onClick">加载</el-button>
+    <iViewForm maxlength="40" enterSubmit ref="form" lib="element-ui" :formList="formList" @submit="onSubmit"></iViewForm> -->
     <h2>普通示例</h2>
     <iframe height='500' scrolling='no' title='iview-form demo' src='//codepen.io/viewweiwu/embed/preview/GdwGPE/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/GdwGPE/'>iview-form_demo1</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
     </iframe>
@@ -54,12 +57,74 @@
 <script>
 import iViewForm from '@/index.js'
 
+let initForm = {
+  key1: '默认值测试',
+  key2: '',
+  key3: ['', ''],
+  key4: ['', ''],
+  key5: ''
+}
+
 export default {
   name: 'App',
   components: {
     iViewForm
   },
+  data () {
+    return {
+      // 测试用数据
+      formList: [
+        {
+          title: 'input',
+          type: 'input',
+          key: 'key1',
+          props: {
+            placeholder: 'hello'
+          }
+        },
+        {
+          title: 'input-number',
+          type: 'input-number',
+          key: 'key2'
+        },
+        {
+          title: 'daterange',
+          type: 'daterange',
+          key: 'key3'
+        },
+        {
+          title: 'datetimerange',
+          type: 'datetimerange',
+          key: 'key4'
+        },
+        {
+          title: 'textarea',
+          type: 'input',
+          key: 'key5',
+          props: {
+            placeholder: 'textarea',
+            type: 'textarea'
+          }
+        }
+      ]
+    }
+  },
+  mounted () {
+    this.setForm(initForm)
+  },
   methods: {
+    onClick () {
+      this.setForm({
+        'key1': '你好呀！',
+        'key2': 5
+      })
+    },
+    setForm (form) {
+      this.$refs.form.setForm(form)
+    },
+    onSubmit (form) {
+      console.log(form)
+    },
     jumpPage(target) {
       window.open(target)
     }
