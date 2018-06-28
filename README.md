@@ -124,6 +124,7 @@ export default {
 | datetime | 当前时间，new Date() | |
 | daterange | ['', ''] | |
 | datetimerange | ['', ''] | |
+| time | '' | |
 | switch | false | |
 | slider | 0 | |
 
@@ -142,6 +143,12 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+
+### 1.1.1
+
+1. 添加 type: time 类型
+2. 修改 reset 方法不能清空验证
+
 ### 1.1.0
 
 1. 添加 type: input-number 类型

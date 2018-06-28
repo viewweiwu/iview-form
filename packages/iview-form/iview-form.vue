@@ -9,6 +9,7 @@ const getPrefix = (tag, lib) => {
     'checkbox': 'checkbox',
     'checkbox-group': 'checkbox-group',
     'date-picker': 'date-picker',
+    'time-picker': 'time-picker',
     'radio': 'radio',
     'radio-group': 'radio-group',
     'switch': 'i-switch',
@@ -27,6 +28,7 @@ const getPrefix = (tag, lib) => {
     'checkbox': 'el-checkbox',
     'checkbox-group': 'el-checkbox-group',
     'date-picker': 'el-date-picker',
+    'time-picker': 'el-time-picker',
     'radio': 'el-radio',
     'radio-group': 'el-radio-group',
     'switch': 'el-switch',
@@ -175,6 +177,7 @@ export default {
         'datetime': new Date(),
         'daterange': [],
         'datetimerange': [],
+        'time': '',
         'radio': false,
         'radio-group': '',
         'slider': 0,
@@ -321,6 +324,9 @@ export default {
         case 'datetimerange':
           content = this.renderDateRange(h, item)
           break
+        case 'time':
+          content = this.renderTimePicker(h, item)
+          break
         case 'radio':
           content = this.renderRadio(h, item)
           break
@@ -416,10 +422,10 @@ export default {
 
       // 让 element-ui 在 props 里也可以设置 maxlength
       if (props.type !== 'textarea') {
-        attrs.maxlength = props.maxlength || this.maxlength
+        attrs.maxlength = +props.maxlength || +this.maxlength
       } else {
         // textarea 长度
-        attrs.maxlength = props.maxlength || this.textareaMaxlength
+        attrs.maxlength = +props.maxlength || +this.textareaMaxlength
       }
 
       item.attrs = attrs
@@ -519,6 +525,19 @@ export default {
         h,
         item,
         tagName: getPrefix('date-picker', this.lib),
+        props: {
+          clearable: this.clearable,
+          type: item.type,
+          ...(item.props || {})
+        }
+      }
+      return this.generateTag(tag)
+    },
+    renderTimePicker(h, item) {
+      let tag = {
+        h,
+        item,
+        tagName: getPrefix('time-picker', this.lib),
         props: {
           clearable: this.clearable,
           type: item.type,
@@ -644,6 +663,7 @@ export default {
     },
     // 清空 form 表单
     reset() {
+      this.$refs.form.resetFields()
       this.form = this.initForm()
     },
     // 根据 key 获取 value
