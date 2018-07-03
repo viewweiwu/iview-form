@@ -79,7 +79,6 @@ export default {
 | notCtrl | 是否不显示 提交、重置 按钮 | Boolean | false |
 | enterSubmit | 如果设定这个值为 true，那么 input 按 enter 键会触发 submit 事件 | Boolean | false |
 | lib | 可选值（'iview', 'element'），如果指定为 element 那么组件会按照 element 来渲染 | String | 'iview' |
-| disabled | 如果设定这个值为 true，那么该表单下所有的表单元素都会被禁用 | Boolean | false |
 | label-width | 标签的宽度 | Number | 100 |
 | content-width | 内容的宽度 | Number | 240 |
 | options | iView 和 element-ui 原生 props ( :options="{size: 'small'}" ) | Object | {} |
@@ -90,6 +89,8 @@ export default {
 | clearable | 控制是否显示清除 icon | Boolean | true |
 | maxlength | 默认全局 input 的 maxlength | Boolean | 20 |
 | textareaMaxlength | 默认全局 textarea 的 maxlength | Boolean | 256 |
+| readonly | 如果设定这个值为 true，那么该表单下所有的表单元素都会是 read
+| disabled | 如果设定这个值为 true，那么该表单下所有的表单元素都会被禁用 | Boolean | false |nly | Boolean | false |
 
 ## formList 参数
 | 参数 | 说明 | 类型 | 默认值 |
@@ -108,6 +109,8 @@ export default {
 | renderTitle | 自定义标签 | Function | (h, item, form) |
 | renderContent | 自定义内容主题 | Function | (h, item, form) |
 | renderOption | type 为 select 时才有用，可以自定义 select 的 option | Function | (h, option, item) |
+| disabled | 禁用表单元素，优先级比标签上的低 | Boolean | false |
+| readonly | 只读表单元素，优先级比标签上的低 | Boolean | false |
 
 
 ## type 种类
@@ -143,6 +146,10 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+
+### 1.1.2
+
+1. 添加全局和单体 readonly 属性
 
 ### 1.1.1
 

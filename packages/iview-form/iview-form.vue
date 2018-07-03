@@ -69,11 +69,6 @@ export default {
       type: String,
       default: 'iview'
     },
-    // 是否全局 disabled
-    disabled: {
-      type: Boolean,
-      default: false
-    },
     // 默认标签宽度
     'label-width': {
       type: Number,
@@ -122,6 +117,16 @@ export default {
     textareaMaxlength: {
       type: Number,
       default: 256
+    },
+    // 是否全局 disabled
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    // 是否全局 readonly
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -614,7 +619,8 @@ export default {
           min: 0,
           max: 9999999,
           ...props,
-          disabled: this.disabled || item.disabled
+          disabled: this.disabled || item.disabled,
+          readonly: this.readonly || item.readonly
         },
         attrs: item.attrs || {},
         style: {
