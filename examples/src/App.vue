@@ -79,6 +79,12 @@ export default {
           type: 'input',
           key: 'key1',
           rule: { required: true, message: '请输入用户名', trigger: 'blur' },
+          settings: {
+            class: 'test',
+            style: {
+              'font-weight': 'bold'
+            }
+          },
           props: {
             placeholder: 'hello'
           }
@@ -134,6 +140,9 @@ export default {
 </script>
 
 <style lang="less">
+  .test {
+    background-color: #6cf;
+  }
   body {
     padding: 70px 50px 50px;
     background-color: #fafafa;

@@ -365,11 +365,12 @@ export default {
       if (typeof item.render === 'function') {
         return item.render(h, item)
       } else {
-        return h(getPrefix('form-item', this.lib), {
+        let settings = {
           props: {
             prop: item.key
           }
-        }, [
+        }
+        return h(getPrefix('form-item', this.lib), Object.assign(settings, item.settings), [
           this.renderTitle(h, item),
           content
         ])

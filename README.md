@@ -111,6 +111,7 @@ export default {
 | renderOption | type 为 select 时才有用，可以自定义 select 的 option | Function | (h, option, item) |
 | disabled | 禁用表单元素，优先级比标签上的低 | Boolean | false |
 | readonly | 只读表单元素，优先级比标签上的低 | Boolean | false |
+| settings | formItem 的标签属性，比如 style，class | Object | {} |
 
 
 ## type 种类
@@ -146,6 +147,10 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+
+### 1.1.3
+
+1. 添加 item 的 setting 属性，可以在 formItem 上添加样式了
 
 ### 1.1.2
 
