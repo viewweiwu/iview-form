@@ -8,7 +8,7 @@
     </div>
     <!-- 测试区域 -->
     <!-- <el-button @click="onClick">加载</el-button>
-    <iViewForm maxlength="40" :options="{size: 'small'}" enterSubmit ref="form"  :formList="formList" @submit="onSubmit"></iViewForm> -->
+    <iViewForm maxlength="40" contentWidth="100%" :options="{size: 'small'}" enterSubmit ref="form" readonly lib="element" :formList="formList" @submit="onSubmit"></iViewForm> -->
     <h2>普通示例</h2>
     <iframe height='500' scrolling='no' title='iview-form demo' src='//codepen.io/viewweiwu/embed/preview/GdwGPE/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/GdwGPE/'>iview-form_demo1</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
     </iframe>
@@ -73,47 +73,108 @@ export default {
   data () {
     return {
       // 测试用数据
-      formList: [
-        {
-          title: 'input',
-          type: 'input',
-          key: 'key1',
-          rule: { required: true, message: '请输入用户名', trigger: 'blur' },
-          settings: {
-            class: 'test',
-            style: {
-              'font-weight': 'bold'
-            }
-          },
-          props: {
-            placeholder: 'hello'
+      formList: [{
+        title: '姓名',
+        type: 'input',
+        key: 'name',
+        rule: { required: true },
+        settings: {
+          style: {
+            'background-color': '#6cf'
           }
         },
-        {
-          title: 'time',
-          type: 'time',
-          key: 'key2'
-        },
-        {
-          title: 'daterange',
-          type: 'daterange',
-          key: 'key3'
-        },
-        {
-          title: 'datetimerange',
-          type: 'datetimerange',
-          key: 'key4'
-        },
-        {
-          title: 'textarea',
-          type: 'input',
-          key: 'key5',
-          props: {
-            placeholder: 'textarea',
-            type: 'textarea'
-          }
+        props: {
+          placeholder: '默认长度 20'
         }
-      ]
+      }, {
+        title: '特长',
+        type: 'select',
+        key: 'interest',
+        defaultValue: [],
+        props: {
+          multiple: true,
+          placeholder: '请选择兴趣'
+        },
+        options: [{
+          value: 0,
+          text: '上班'
+        }, {
+          value: 1,
+          text: '吃饭'
+        }, {
+          value: 2,
+          text: '睡觉'
+        }, {
+          value: 3,
+          text: '偷懒'
+        }]
+      }, {
+        title: '零花钱',
+        type: 'slider',
+        defaultValue: 10,
+        key: 'slider'
+      }, {
+        title: '协议',
+        type: 'checkbox',
+        text: '我同意'
+      }, {
+        title: '喜欢的食物',
+        type: 'checkbox-group',
+        key: 'foods',
+        width: 'auto',
+        options: [{
+          value: 0,
+          text: '草莓'
+        }, {
+          value: 1,
+          text: '酸奶'
+        }, {
+          value: 2,
+          text: '面包'
+        }, {
+          value: 3,
+          text: '鸡蛋'
+        }]
+      }, {
+        title: '生日',
+        type: 'date',
+        key: 'birthday'
+      }, {
+        title: '个数',
+        type: 'input-number',
+        key: 'input-number'
+      }, {
+        title: '不存在的食物',
+        type: 'radio-group',
+        key: 'radio-group',
+        defaultValue: 0,
+        width: 'auto',
+        options: [{
+          value: 0,
+          text: '冬瓜'
+        }, {
+          value: 1,
+          text: '西瓜'
+        }, {
+          value: 2,
+          text: '南瓜'
+        }, {
+          value: 3,
+          text: '北瓜'
+        }]
+      }, {
+        title: '开关',
+        type: 'switch',
+        key: 'switch'
+      }, {
+        title: '备注',
+        type: 'input',
+        key: 'remark',
+        props: {
+          type: 'textarea',
+          placeholder: '默认长度 256'
+        }
+      }]
     }
   },
   mounted () {

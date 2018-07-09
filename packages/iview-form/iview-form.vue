@@ -49,6 +49,10 @@ export default {
     grid: {
       type: [Array, Number]
     },
+    // grid 间距
+    gutter: {
+      type: Number
+    },
     // formItem 项
     formList: {
       type: Array,
@@ -158,6 +162,7 @@ export default {
   },
   computed: {
     rules() {
+      if (this.readonly) return {}
       let rules = {}
       this.formList.forEach(item => {
         if (item.rule !== undefined) {
@@ -226,6 +231,7 @@ export default {
       // 过滤 grid
       let grid = ~~Math.abs(this.grid)
       if (grid < 1) grid = 1
+
       for (let i = 0; i < this.formList.length; i += grid) {
         let childrenList = []
         // 获取当前分成几列 grid 为 number 时
@@ -242,7 +248,7 @@ export default {
           ])
           childrenList.push(childrenParts)
         }
-        let row = h(getPrefix('row', this.lib), childrenList)
+        let row = this.getRow(h, childrenList)
         list.push(row)
       }
       return list
@@ -267,7 +273,7 @@ export default {
           ])
           childrenList.push(childrenParts)
         }
-        let row = h(getPrefix('row', this.lib), childrenList)
+        let row = this.getRow(h, childrenList)
         list.push(row)
         gridIndex += 1
         i += grid
@@ -295,12 +301,19 @@ export default {
           ])
           childrenList.push(childrenParts)
         }
-        let row = h(getPrefix('row', this.lib), childrenList)
+        let row = this.getRow(h, childrenList)
         list.push(row)
         gridIndex += 1
         i += grid.length
       }
       return list
+    },
+    getRow (h, childrenList) {
+      return h(getPrefix('row', this.lib), {
+        props: {
+          gutter: this.gutter
+        }
+      }, childrenList)
     },
     getContent(h, item) {
       let content
@@ -614,18 +627,50 @@ export default {
     },
     // 生产 tag
     generateTag({h, item, tagName, props, children, on = {}, nativeOn = {}}) {
+      let currProps = {
+        value: this.form[item.key],
+        min: 0,
+        max: 9999999,
+        ...props,
+        disabled: this.disabled || item.disabled
+      }
+      let attrs = item.attrs || {}
+      // 设置 readonly
+      let target = this.lib === 'iview' ? props : attrs
+      let readonly = this.readonly || item.readonly
+      target.readonly = readonly
+      // let disabledMap = {
+      //   'slider': true,
+      //   'select': true,
+      //   'checkbox': true,
+      //   'checkbox-group': true,
+      //   'radio': true,
+      //   'radio-group': true,
+      //   'switch': true,
+      //   'input-number': true
+      // }
+      // if (disabledMap[item.type] && readonly) {
+      //   currProps.disabled = true
+      // }
+
+      let width = null
+
+      if (item.type !== 'switch') {
+        let w = item.width || this['contentWidth']
+        console.log(w)
+        if (typeof w === 'string' && (w.indexOf('%') >= 0 || w === 'auto')) {
+          width = w
+        } else {
+          width = w + 'px'
+        }
+      }
+      console.log(width)
+
       return h(tagName, {
-        props: {
-          value: this.form[item.key],
-          min: 0,
-          max: 9999999,
-          ...props,
-          disabled: this.disabled || item.disabled,
-          readonly: this.readonly || item.readonly
-        },
-        attrs: item.attrs || {},
+        props: currProps,
+        attrs,
         style: {
-          width: item.type === 'switch' ? null : (item.width || this['contentWidth']) + 'px'
+          width
         },
         on: {
           input: (value) => {

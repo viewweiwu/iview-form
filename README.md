@@ -75,12 +75,13 @@ export default {
 | 参数 | 说明 | 类型 | 默认值 |
 | - | - | - | - |
 | grid | 网格，更多请看 demo | Number, Array | - |
+| gutter | 当使用了 grid 属性时，设置此属性可以调整间距 | Number, Array | - |
 | formList | 配置项（看下面 formList 参数） | Array | [] |
 | notCtrl | 是否不显示 提交、重置 按钮 | Boolean | false |
 | enterSubmit | 如果设定这个值为 true，那么 input 按 enter 键会触发 submit 事件 | Boolean | false |
 | lib | 可选值（'iview', 'element'），如果指定为 element 那么组件会按照 element 来渲染 | String | 'iview' |
 | label-width | 标签的宽度 | Number | 100 |
-| content-width | 内容的宽度 | Number | 240 |
+| content-width | 内容的宽度(支持 百分比 auto) | Number, String | 240 |
 | options | iView 和 element-ui 原生 props ( :options="{size: 'small'}" ) | Object | {} |
 | submitText | 提交按钮文本 | String | '提交' |
 | resetText | 重置按钮文本 | String | '重置' |
@@ -147,6 +148,11 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+
+### 1.1.5
+
+1. 添加标签的 gutter 属性
+2. content-width 支持 auto 100% 值
 
 ### 1.1.4
 
