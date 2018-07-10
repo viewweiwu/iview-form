@@ -8,7 +8,7 @@
     </div>
     <!-- 测试区域 -->
     <!-- <el-button @click="onClick">加载</el-button>
-    <iViewForm maxlength="40" contentWidth="100%" :options="{size: 'small'}" enterSubmit ref="form" readonly lib="element" :formList="formList" @submit="onSubmit"></iViewForm> -->
+    <iViewForm maxlength="40" contentWidth="100%" :options="{size: 'small'}" enterSubmit ref="form" :formList="formList" @submit="onSubmit"></iViewForm> -->
     <h2>普通示例</h2>
     <iframe height='500' scrolling='no' title='iview-form demo' src='//codepen.io/viewweiwu/embed/preview/GdwGPE/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/GdwGPE/'>iview-form_demo1</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
     </iframe>
@@ -174,6 +174,44 @@ export default {
           type: 'textarea',
           placeholder: '默认长度 256'
         }
+      }, {
+        title: '级联选择',
+        key: 'cascader',
+        type: 'cascader',
+        props: {
+          placeholder: '你好啊'
+        },
+        options: [{
+          value: 'zhinan',
+          text: '指南',
+          children: [{
+            value: 'shejiyuanze',
+            text: '设计原则',
+            children: [{
+              value: 'yizhi',
+              text: '一致'
+            }, {
+              value: 'fankui',
+              text: '反馈'
+            }, {
+              value: 'xiaolv',
+              text: '效率'
+            }, {
+              value: 'kekong',
+              text: '可控'
+            }]
+          }, {
+            value: 'daohang',
+            text: '导航',
+            children: [{
+              value: 'cexiangdaohang',
+              text: '侧向导航'
+            }, {
+              value: 'dingbudaohang',
+              text: '顶部导航'
+            }]
+          }]
+        }]
       }]
     }
   },

@@ -17,7 +17,8 @@ const getPrefix = (tag, lib) => {
     'button': 'i-button',
     'row': 'row',
     'col': 'i-col',
-    'input-number': 'input-number'
+    'input-number': 'input-number',
+    'cascader': 'cascader'
   }
   let elementMap = {
     'form': 'el-form',
@@ -36,7 +37,8 @@ const getPrefix = (tag, lib) => {
     'button': 'el-button',
     'row': 'el-row',
     'col': 'el-col',
-    'input-number': 'el-input-number'
+    'input-number': 'el-input-number',
+    'cascader': 'el-cascader'
   }
 
   return lib === 'iview' ? iviewMap[tag] : elementMap[tag]
@@ -126,11 +128,6 @@ export default {
     disabled: {
       type: Boolean,
       default: false
-    },
-    // 是否全局 readonly
-    readonly: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -162,7 +159,6 @@ export default {
   },
   computed: {
     rules() {
-      if (this.readonly) return {}
       let rules = {}
       this.formList.forEach(item => {
         if (item.rule !== undefined) {
@@ -176,6 +172,7 @@ export default {
     }
   },
   methods: {
+    // 默认值
     initForm() {
       let form = {}
       let map = {
@@ -192,7 +189,8 @@ export default {
         'radio-group': '',
         'slider': 0,
         'switch': false,
-        'input-number': 0
+        'input-number': 0,
+        'cascader': []
       }
       this.formList.forEach(item => {
         let defaultValue = ''
@@ -359,6 +357,9 @@ export default {
           break
         case 'input-number':
           content = this.renderInputNumber(h, item)
+          break
+        case 'cascader':
+          content = this.renderCascader(h, item)
           break
         default:
           if (typeof item.renderContent === 'function') {
@@ -625,6 +626,28 @@ export default {
       }
       return this.generateTag(tag)
     },
+    // 渲染 cascader
+    renderCascader(h, item) {
+      let props = item.props || {}
+      let tag = {
+        h,
+        item,
+        tagName: getPrefix('cascader', this.lib)
+      }
+      if (this.lib === 'iview') {
+        props.data = this.getCascaderOptions(item.options)
+      } else {
+        props.options = this.getCascaderOptions(item.options)
+      }
+      tag.props = props
+      return this.generateTag(tag)
+    },
+    // 转换 cascader options
+    getCascaderOptions(options = []) {
+      let list = JSON.stringify(options)
+      list = list.replace(/"text":/g, '"label":')
+      return JSON.parse(list)
+    },
     // 生产 tag
     generateTag({h, item, tagName, props, children, on = {}, nativeOn = {}}) {
       let currProps = {
@@ -635,36 +658,16 @@ export default {
         disabled: this.disabled || item.disabled
       }
       let attrs = item.attrs || {}
-      // 设置 readonly
-      let target = this.lib === 'iview' ? props : attrs
-      let readonly = this.readonly || item.readonly
-      target.readonly = readonly
-      // let disabledMap = {
-      //   'slider': true,
-      //   'select': true,
-      //   'checkbox': true,
-      //   'checkbox-group': true,
-      //   'radio': true,
-      //   'radio-group': true,
-      //   'switch': true,
-      //   'input-number': true
-      // }
-      // if (disabledMap[item.type] && readonly) {
-      //   currProps.disabled = true
-      // }
-
       let width = null
 
       if (item.type !== 'switch') {
         let w = item.width || this['contentWidth']
-        console.log(w)
         if (typeof w === 'string' && (w.indexOf('%') >= 0 || w === 'auto')) {
           width = w
         } else {
           width = w + 'px'
         }
       }
-      console.log(width)
 
       return h(tagName, {
         props: currProps,

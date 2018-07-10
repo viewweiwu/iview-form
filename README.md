@@ -104,14 +104,13 @@ export default {
 | props | 组件库自带的参数,可以参考 iview 或者 element 组件库的文档 | Object | {} |
 | attrs | 组件库自带的参数,可以参考 iview 或者 element 组件库的文档 | Object | {} |
 | text | type 为 checkbox 或者 radio 时才有用，显示后面跟着的文字 | String | '' |
-| options | type 为 checkbox-group 或者 radio-group 时才有用，由 {value: 0, text: '苹果'} 组成，数据项支持异步 | Array | [] |
+| options | type 为 select、checkbox-group、radio-group、cascader 时才有用，由 {value: 0, text: '苹果'} 组成，数据项支持异步 | Array | [] |
 | onInput | 监听参数改变事件 | Function | (value, item, form) |
 | render | 自定义整行 | Function | (h, item, form) |
 | renderTitle | 自定义标签 | Function | (h, item, form) |
 | renderContent | 自定义内容主题 | Function | (h, item, form) |
 | renderOption | type 为 select 时才有用，可以自定义 select 的 option | Function | (h, option, item) |
 | disabled | 禁用表单元素，优先级比标签上的低 | Boolean | false |
-| readonly | 只读表单元素，优先级比标签上的低 | Boolean | false |
 | settings | formItem 的标签属性，比如 style，class | Object | {} |
 
 
@@ -132,6 +131,7 @@ export default {
 | time | '' | |
 | switch | false | |
 | slider | 0 | |
+| cascader | [] | |
 
 ## 内置方法
 | 名称 | 说明 | 返回类型 | 返回值 |
@@ -148,6 +148,14 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.3.0
+
+1. 删除 readonly，因为只能作用于几种类型（input, select），作用不大
+1. 添加 cascader 类型，跟 select 的用法类似 [{ value: 'xxx', text: 'xxx' }, ...]
+
+### 1.2.0
+
+1. 删除不必要的提示
 
 ### 1.1.5
 
