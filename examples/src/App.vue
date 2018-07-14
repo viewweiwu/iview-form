@@ -116,10 +116,12 @@ export default {
       }, {
         title: '协议',
         type: 'checkbox',
-        text: '我同意'
+        text: '我同意',
+        border: true
       }, {
         title: '喜欢的食物',
         type: 'checkbox-group',
+        border: true,
         key: 'foods',
         width: 'auto',
         options: [{
@@ -148,6 +150,7 @@ export default {
         type: 'radio-group',
         key: 'radio-group',
         defaultValue: 0,
+        border: true,
         width: 'auto',
         options: [{
           value: 0,

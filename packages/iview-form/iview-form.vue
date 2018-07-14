@@ -495,11 +495,15 @@ export default {
     },
     // 渲染 单个checkbox
     renderCheckbox(h, item) {
+      let props = item.props || {}
+      if (item.border) {
+        props.border = true
+      }
       let tag = {
         h,
         item,
         tagName: getPrefix('checkbox', this.lib),
-        props: item.props || {},
+        props,
         children: item.text
       }
       return this.generateTag(tag)
@@ -514,6 +518,7 @@ export default {
         children: item.options.map(option => {
           return h(getPrefix('checkbox', this.lib), {
             props: {
+              border: item.border,
               label: option.value
             }
           }, option.text)
@@ -568,11 +573,15 @@ export default {
     },
     // 渲染 radio
     renderRadio(h, item) {
+      let props = item.props || {}
+      if (item.border) {
+        props.border = true
+      }
       let tag = {
         h,
         item,
         tagName: getPrefix('radio', this.lib),
-        props: item.props || {},
+        props,
         children: item.text
       }
       return this.generateTag(tag)
@@ -587,6 +596,7 @@ export default {
         children: item.options.map(option => {
           return h(getPrefix('radio', this.lib), {
             props: {
+              border: item.border,
               label: option.value
             }
           }, option.text)
@@ -596,7 +606,6 @@ export default {
     },
     // 渲染 switch
     renderSwitch(h, item) {
-      item.width = item.width || 60
       let tag = {
         h,
         item,
@@ -617,7 +626,6 @@ export default {
     },
     // 渲染 slider
     renderInputNumber(h, item) {
-      item.width = item.width || 150
       let tag = {
         h,
         item,
@@ -660,7 +668,17 @@ export default {
       let attrs = item.attrs || {}
       let width = null
 
-      if (item.type !== 'switch') {
+      // 忽略这些标签的宽度设置
+      let ignoreMap = {
+        'switch': true,
+        'checkbox': true,
+        'checkbox-group': true,
+        'radio': true,
+        'radio-group': true,
+        'input-number': true
+      }
+
+      if (!ignoreMap[item.type]) {
         let w = item.width || this['contentWidth']
         if (typeof w === 'string' && (w.indexOf('%') >= 0 || w === 'auto')) {
           width = w

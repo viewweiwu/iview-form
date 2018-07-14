@@ -112,7 +112,7 @@ export default {
 | renderOption | type 为 select 时才有用，可以自定义 select 的 option | Function | (h, option, item) |
 | disabled | 禁用表单元素，优先级比标签上的低 | Boolean | false |
 | settings | formItem 的标签属性，比如 style，class | Object | {} |
-
+| border | 当组件库为 element 时，type：radio-group checkbox checkbox-group, 可以让选项有 border | Boolean | false |
 
 ## type 种类
 | 类型 | 默认值 | 其它 |
@@ -148,6 +148,10 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.4.0
+
+1. 当组件库为 element 时，type：radio-group checkbox checkbox-group 支持 border 属性
+
 ### 1.3.0
 
 1. 删除 readonly，因为只能作用于几种类型（input, select），作用不大
