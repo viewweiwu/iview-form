@@ -154,7 +154,6 @@ export default {
 
 1. 支持每个组件的 on 与 nativeOn 配置
 
-## 更新日志
 ### 1.4.0
 
 1. 当组件库为 element 时，type：radio-group checkbox checkbox-group 支持 border 属性
