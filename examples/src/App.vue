@@ -7,8 +7,8 @@
       </span>
     </div>
     <!-- 测试区域 -->
-    <!-- <el-button @click="onClick">加载</el-button>
-    <iViewForm maxlength="40" contentWidth="100%" :options="{size: 'small'}" enterSubmit ref="form" :formList="formList" @submit="onSubmit"></iViewForm> -->
+    <el-button @click="onClick">加载</el-button>
+    <iViewForm maxlength="40" contentWidth="100%" :options="{size: 'small'}" enterSubmit ref="form" :formList="formList" @submit="onSubmit"></iViewForm>
     <h2>普通示例</h2>
     <iframe height='500' scrolling='no' title='iview-form demo' src='//codepen.io/viewweiwu/embed/preview/GdwGPE/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/GdwGPE/'>iview-form_demo1</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
     </iframe>
@@ -84,7 +84,13 @@ export default {
           }
         },
         props: {
+          icon: 'ionic',
           placeholder: '默认长度 20'
+        },
+        on: {
+          'on-click': () => {
+            console.log(1)
+          }
         }
       }, {
         title: '特长',

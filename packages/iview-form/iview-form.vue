@@ -668,6 +668,9 @@ export default {
       let attrs = item.attrs || {}
       let width = null
 
+      let itemOn = item.on || {}
+      let itemNativeOn = item.nativeOn || {}
+
       // 忽略这些标签的宽度设置
       let ignoreMap = {
         'switch': true,
@@ -694,6 +697,7 @@ export default {
           width
         },
         on: {
+          ...itemOn,
           input: (value) => {
             value = this.formatDateValue(value, item)
             this.form[item.key] = value
@@ -701,7 +705,10 @@ export default {
           },
           ...on
         },
-        nativeOn
+        nativeOn: {
+          ...itemNativeOn,
+          ...nativeOn
+        }
       }, children)
     },
     // 格式化日期返回，避免 null 的出现

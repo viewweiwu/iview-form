@@ -113,6 +113,8 @@ export default {
 | disabled | 禁用表单元素，优先级比标签上的低 | Boolean | false |
 | settings | formItem 的标签属性，比如 style，class | Object | {} |
 | border | 当组件库为 element 时，type：radio-group checkbox checkbox-group, 可以让选项有 border | Boolean | false |
+| on | 当前 content 的 on 配置项, 如果要监听 input 事件 请使用 onInput | Object | {} |
+| nativeOn | 当前 content 的 nativeOn 配置项 | Object | {} |
 
 ## type 种类
 | 类型 | 默认值 | 其它 |
@@ -146,6 +148,11 @@ export default {
 | 名称 | 说明 | 返回类型 | 返回值 |
 | - | - | - | - |
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
+
+## 更新日志
+### 1.5.0
+
+1. 支持每个组件的 on 与 nativeOn 配置
 
 ## 更新日志
 ### 1.4.0
