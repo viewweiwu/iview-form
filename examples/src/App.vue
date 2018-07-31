@@ -46,6 +46,9 @@
     <iframe height='500' scrolling='no' title='iview-form grid' src='//codepen.io/viewweiwu/embed/preview/NMEzZB/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/NMEzZB/'>iview-form date</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
     </iframe>
     <h2>【render】自定义 render</h2>
+    <div class="info">
+      <p>你可能层级嵌套会很深，或者你已经包装过 iview-form，此时获取 this.$refs.xxx 会得不到你想要的元素，这是可以试着把 h 替换成 this.$createElement，请看下面的 demo 中 render 的 h2</p>
+    </div>
     <iframe height='500' scrolling='no' title='iview-form render' src='//codepen.io/viewweiwu/embed/preview/MGzBKM/?height=500&theme-id=dark&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/viewweiwu/pen/MGzBKM/'>iview-form render</a> by view (<a href='https://codepen.io/viewweiwu'>@viewweiwu</a>) on <a href='https://codepen.io'>CodePen</a>.
     </iframe>
     <h2>【isShow】控制显示和隐藏</h2>
