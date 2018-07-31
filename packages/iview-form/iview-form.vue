@@ -201,6 +201,9 @@ export default {
       })
       return form
     },
+    getHypeScript () {
+      return this.$parent.$createElement
+    },
     renderFormList(h) {
       let list = []
       let grid = this.grid
@@ -363,7 +366,7 @@ export default {
           break
         default:
           if (typeof item.renderContent === 'function') {
-            content = item.renderContent(h, item, this.form)
+            content = item.renderContent(this.getHypeScript(), item, this.form)
           }
           break
       }
@@ -377,7 +380,7 @@ export default {
         }
       }
       if (typeof item.render === 'function') {
-        return item.render(h, item)
+        return item.render(this.getHypeScript(), item)
       } else {
         let settings = {
           props: {
@@ -400,7 +403,7 @@ export default {
         }
         {
           typeof item.renderTitle === 'function'
-            ? <span>{item.renderTitle(h, item, this.getFormBykey(item.key))}</span>
+            ? <span>{item.renderTitle(this.getHypeScript(), item, this.getFormBykey(item.key))}</span>
             : <span>{item.title}</span>
         }
       </span>
@@ -743,8 +746,12 @@ export default {
     },
     // 清空 form 表单
     reset() {
-      this.$refs.form.resetFields()
+      this.clear()
       this.form = this.initForm()
+    },
+    // 清空验证
+    clear() {
+      this.$refs.form.resetFields()
     },
     // 根据 key 获取 value
     getFormBykey(key) {

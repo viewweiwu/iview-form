@@ -138,7 +138,8 @@ export default {
 ## 内置方法
 | 名称 | 说明 | 返回类型 | 返回值 |
 | - | - | - | - |
-| reset | 还原表单 | - | - |
+| clear | 清除表单验证 | - | - |
+| reset | 还原表单（默认会调用 clear） | - | - |
 | getFormBykey | 根据 key 来获取这个 key 在 form 的值 | - | 打印出来你就知道了 |
 | getForm | 获取 form 的值 | - | 打印出来你就知道了 |
 | setForm | 设置 form 的值，传入 key: value 格式的对象，例如 setForm({ key1: 'xxxx' }) | - | - |
@@ -150,6 +151,11 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.6.0
+
+1. 修复在父组件使用 render（render，renderTitle，renderContent）时，设置 ref 会获取不到对象
+2. 添加 clear 清除方法
+
 ### 1.5.0
 
 1. 支持每个组件的 on 与 nativeOn 配置
