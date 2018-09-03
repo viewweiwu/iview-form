@@ -151,6 +151,9 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.7.0
+
+1. 修复 renderTitle 和 render 函数没有 form 的bug
 ### 1.6.0
 
 1. 修复在父组件使用 render（render，renderTitle，renderContent）时，设置 ref 会获取不到对象
