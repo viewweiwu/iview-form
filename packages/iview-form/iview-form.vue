@@ -380,7 +380,7 @@ export default {
         }
       }
       if (typeof item.render === 'function') {
-        return item.render(this.getHypeScript(), item)
+        return item.render(this.getHypeScript(), item, this.form)
       } else {
         let settings = {
           props: {
@@ -388,7 +388,7 @@ export default {
           }
         }
         return h(getPrefix('form-item', this.lib), Object.assign(settings, item.settings), [
-          this.renderTitle(h, item),
+          this.renderTitle(h, item, this.form),
           content
         ])
       }
@@ -403,7 +403,7 @@ export default {
         }
         {
           typeof item.renderTitle === 'function'
-            ? <span>{item.renderTitle(this.getHypeScript(), item, this.getFormBykey(item.key))}</span>
+            ? <span>{item.renderTitle(h, item, this.form)}</span>
             : <span>{item.title}</span>
         }
       </span>
