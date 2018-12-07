@@ -748,10 +748,11 @@ export default {
     reset() {
       this.clear()
       this.form = this.initForm()
+      this.$refs.form.resetFields()
     },
     // 清空验证
     clear() {
-      this.$refs.form.resetFields()
+      this.$refs.form.clearValidate && this.$refs.form.clearValidate()
     },
     // 根据 key 获取 value
     getFormBykey(key) {

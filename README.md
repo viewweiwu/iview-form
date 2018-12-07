@@ -138,7 +138,7 @@ export default {
 ## 内置方法
 | 名称 | 说明 | 返回类型 | 返回值 |
 | - | - | - | - |
-| clear | 清除表单验证 | - | - |
+| clear | 清除表单验证(暂时只支持element-ui) | - | - |
 | reset | 还原表单（默认会调用 clear） | - | - |
 | getFormBykey | 根据 key 来获取这个 key 在 form 的值 | - | 打印出来你就知道了 |
 | getForm | 获取 form 的值 | - | 打印出来你就知道了 |
@@ -151,6 +151,9 @@ export default {
 | submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
 
 ## 更新日志
+### 1.8.1
+
+1. 修复 clear 清空表单无法清空的 bug
 ### 1.8.0
 
 1. 修复样式错误的 bug
