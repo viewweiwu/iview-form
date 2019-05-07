@@ -74,7 +74,7 @@ export default {
 
 | 参数 | 说明 | 类型 | 默认值 |
 | - | - | - | - |
-| grid | 网格，更多请看 demo | Number, Array | - |
+| grid | 网格，更多请看 demo | Number | - |
 | gutter | 当使用了 grid 属性时，设置此属性可以调整间距 | Number, Array | - |
 | formList | 配置项（看下面 formList 参数） | Array | [] |
 | notCtrl | 是否不显示 提交、重置 按钮 | Boolean | false |
@@ -88,8 +88,8 @@ export default {
 | hasSubmitBtn | 是否显示提交按钮 | Boolean | true |
 | hasResetBtn | 是否显示重置按钮 | Boolean | true |
 | clearable | 控制是否显示清除 icon | Boolean | true |
-| maxlength | 默认全局 input 的 maxlength | Boolean | 20 |
-| textareaMaxlength | 默认全局 textarea 的 maxlength | Boolean | 256 |
+| maxlength | 默认全局 input 的 maxlength | Number | 20 |
+| textareaMaxlength | 默认全局 textarea 的 maxlength | Number | 256 |
 | readonly | 如果设定这个值为 true，那么该表单下所有的表单元素都会是 read
 | disabled | 如果设定这个值为 true，那么该表单下所有的表单元素都会被禁用 | Boolean | false |nly | Boolean | false |
 
