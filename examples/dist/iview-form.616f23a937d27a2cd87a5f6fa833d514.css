@@ -35,8 +35,7 @@ h2 {
 }
 .app-header .title {
   font-size: 40px;
-  text-shadow: 1px 1px 2px #fff,
-      1px 1px 2px #000;
+  text-shadow: 1px 1px 2px #fff, 1px 1px 2px #000;
 }
 .info {
   margin: 10px;

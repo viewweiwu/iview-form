@@ -136,32 +136,35 @@ export default {
 | cascader | [] | |
 
 ## 内置方法
-| 名称 | 说明 | 返回类型 | 返回值 |
+| 名称 | 说明 | 参数 | 返回值 |
 | - | - | - | - |
 | clear | 清除表单验证(暂时只支持element-ui) | - | - |
 | reset | 还原表单（默认会调用 clear） | - | - |
-| getFormBykey | 根据 key 来获取这个 key 在 form 的值 | - | 打印出来你就知道了 |
-| getForm | 获取 form 的值 | - | 打印出来你就知道了 |
-| setForm | 设置 form 的值，传入 key: value 格式的对象，例如 setForm({ key1: 'xxxx' }) | - | - |
-| submit | 手动触发 submit 事件 | - | - |
+| getFormBykey | 根据 key 来获取这个 key 在 form 的值 | { key: value, ... } | - |
+| getForm | 获取 form 的值 | - | { key: value, ... } |
+| setForm | 设置 form 的值 | { key: value, ... } | - |
+| submit | 手动触发 submit 事件，当 lib 为 element 的时候，支持第一个属性为数组 | string, callback: Function(errorMessage: string) | - |
+| validateField | 对部分表单字段进行校验的方法 | - | - |
 
 ## 事件
 | 名称 | 说明 | 返回类型 | 返回值 |
 | - | - | - | - |
-| submit | 提交按钮的点击事件，监听这个事件，然后 console 出来，你就知道是啥了 | Object | (form, valid) |
+| submit | 提交按钮的点击事件 | Object | (form, valid) |
 
 ## 更新日志
+### 1.9.0
+1. 添加 validateField，单项表单验证
+
 ### 1.8.1
-
 1. 修复 clear 清空表单无法清空的 bug
+
 ### 1.8.0
-
 1. 修复样式错误的 bug
+
 ### 1.7.0
-
 1. 修复 renderTitle 和 render 函数没有 form 的bug
-### 1.6.0
 
+### 1.6.0
 1. 修复在父组件使用 render（render，renderTitle，renderContent）时，设置 ref 会获取不到对象
 2. 添加 clear 清除方法
 

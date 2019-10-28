@@ -769,6 +769,9 @@ export default {
       for (let key in form) {
         this.form[key] = form[key]
       }
+    },
+    validateField (props, callback) {
+      this.$refs.form.validateField(props, callback)
     }
   }
 }
