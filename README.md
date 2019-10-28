@@ -143,8 +143,8 @@ export default {
 | getFormBykey | 根据 key 来获取这个 key 在 form 的值 | { key: value, ... } | - |
 | getForm | 获取 form 的值 | - | { key: value, ... } |
 | setForm | 设置 form 的值 | { key: value, ... } | - |
-| submit | 手动触发 submit 事件，当 lib 为 element 的时候，支持第一个属性为数组 | string, callback: Function(errorMessage: string) | - |
-| validateField | 对部分表单字段进行校验的方法 | - | - |
+| submit | 手动触发 submit 事件，当 lib 为 element 的时候，支持第一个属性为数组 | - | - |
+| validateField | 对部分表单字段进行校验的方法 | string, callback: Function(errorMessage: string) | - | 
 
 ## 事件
 | 名称 | 说明 | 返回类型 | 返回值 |
